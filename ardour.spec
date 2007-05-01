@@ -1,6 +1,6 @@
 %define name 	ardour 
-%define version	0.99.3
-%define release	%mkrel 3
+%define version	2.0
+%define release	%mkrel 1
 
 %define major	0
 %define libname %mklibname %name %major
