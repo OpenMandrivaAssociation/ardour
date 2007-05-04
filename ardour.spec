@@ -1,6 +1,3 @@
-%define major	0
-%define libname %mklibname %{name} %{major}
-
 Summary:   	Professional multitrack audio recording application
 Name:		ardour
 Version:	2.0
@@ -31,21 +28,23 @@ BuildRequires:	libboost1-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
-Ardour is a multichannel hard disk recorder. It is capable of recording 24
-or more channels of 32 bit audio at 48kHz. Ardour is intended to function
-as a "professional" HDR system, replacing dedicated hardware solutions such
-as the Mackie HDR, the Tascan 2424 and more traditional tape systems like
-the Alesis ADAT series. It supports MIDI Machine Control, and so can be
-controlled from any MMC controller, such as the Mackie Digital 8 Bus mixer
-and many other modern digital mixers.
+Ardour is a digital audio workstation.You can use it to record,
+edit and mix multi-track audio. You can produce your own CDs,
+mix video soundtracks, or just experiment with new ideas about
+music and sound.
 
-#Ardour-KSI is a curses-based interface to Ardour.
+Ardour capabilities include: multichannel recording, non-destructive 
+editing with unlimited undo/redo, full automation support, a powerful 
+mixer, unlimited tracks/busses/plugins, timecode synchronization, 
+and hardware control from surfaces like the Mackie Control Universal.
+If you've been looking for a tool similar to ProTools, Nuendo, Pyramix,
+or Sequoia, you might have found it. 
 
 You MUST have jackd running and an ALSA sound driver to use ardour.
 
 %prep
 %setup -q -n %{name}-%{version} -a 4
-bzcat %SOURCE3 > manual.pdf
+#bzcat %SOURCE3 > manual.pdf
 
 %build
 scons PREFIX=%{_prefix}
