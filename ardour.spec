@@ -4,6 +4,7 @@ Summary:   	Professional multitrack audio recording application
 Name:		ardour
 Version:	2.0
 Release:	%mkrel 2
+Epoch:		1
 Source0:	http://ardour.org/releases/%{name}-%{version}.tar.bz2
 Source5:	%{name}16.png
 Source6:	%{name}32.png
