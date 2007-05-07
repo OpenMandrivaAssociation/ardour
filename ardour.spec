@@ -22,7 +22,7 @@ Buildrequires:	liblo-devel
 BuildRequires:	libglib2.0-devel
 BuildRequires:	libgnomecanvas2-devel
 BuildRequires:	libxslt-devel
-BuildRequires:	libboost1-devel
+BuildRequires:	libboost-devel
 Requires:	jackit			>= 0.80.0
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
