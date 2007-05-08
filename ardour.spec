@@ -3,12 +3,9 @@
 Summary:   	Professional multitrack audio recording application
 Name:		ardour
 Version:	2.0
-Release:	%mkrel 2
+Release:	%mkrel 3
 Epoch:		1
 Source0:	http://ardour.org/releases/%{name}-%{version}.tar.bz2
-Source5:	%{name}16.png
-Source6:	%{name}32.png
-Source7:	%{name}48.png
 URL:		http://%{name}.sourceforge.net/
 Group:		Sound
 License:	GPL
@@ -39,7 +36,10 @@ and hardware control from surfaces like the Mackie Control Universal.
 If you've been looking for a tool similar to ProTools, Nuendo, Pyramix,
 or Sequoia, you might have found it. 
 
-You MUST have jackd running and an ALSA sound driver to use ardour.
+You MUST have jackd running and an ALSA sound driver to use ardour. If
+you are new to jackd, try qjackctl.
+
+See the online user manual at http://ardour.org/files/manual/index.html
 
 %prep
 %setup -q
@@ -66,10 +66,11 @@ Encoding=UTF-8
 EOF
 
 # icons
-mkdir -p %{buildroot}%{_miconsdir} %{buildroot}%{_liconsdir} %{buildroot}%{_iconsdir}
-cat %{SOURCE5} > %{buildroot}%{_miconsdir}/%{name}.png
-cat %{SOURCE6} > %{buildroot}%{_iconsdir}/%{name}.png
-cat %{SOURCE7} > %{buildroot}%{_liconsdir}/%{name}.png
+mkdir -p %{buildroot}%{_iconsdir}/hicolor/{16x16,22x22,32x32,48x48}/apps
+cp gtk2_ardour/icons/ardour_icon_16px.png %{buildroot}/%{_iconsdir}/hicolor/16x16/apps/%{name}.png
+cp gtk2_ardour/icons/ardour_icon_22px.png %{buildroot}/%{_iconsdir}/hicolor/22x22/apps/%{name}.png
+cp gtk2_ardour/icons/ardour_icon_32px.png %{buildroot}/%{_iconsdir}/hicolor/32x32/apps/%{name}.png
+cp gtk2_ardour/icons/ardour_icon_48px.png %{buildroot}/%{_iconsdir}/hicolor/48x48/apps/%{name}.png
 
 %find_lang %{name} --all-name
 
@@ -107,6 +108,4 @@ rm -rf %{buildroot}
 %{_datadir}/%{oname}/pixmaps/*.xpm
 %{_datadir}/%{oname}/*.png
 %{_datadir}/%{oname}/templates/*.template
-%{_iconsdir}/%{name}.png
-%{_miconsdir}/%{name}.png
-%{_liconsdir}/%{name}.png
+%{_iconsdir}/hicolor/*/apps/%{name}.png
