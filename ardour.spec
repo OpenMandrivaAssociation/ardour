@@ -105,7 +105,7 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/%{oname}/%{name}.menus
 %{_bindir}/%{oname}
 %{_libdir}/%{oname}/*.so
-%{_libdir}/%{oname}/ardour-2.0
+%{_libdir}/%{oname}/ardour-2.0.1
 %{_libdir}/%{oname}/surfaces/*.so
 %{_libdir}/%{oname}/engines/*.so
 %{_datadir}/applications/mandriva-ardour.desktop
