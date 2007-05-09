@@ -3,7 +3,7 @@
 Summary:   	Professional multitrack audio recording application
 Name:		ardour
 Version:	2.0
-Release:	%mkrel 3
+Release:	%mkrel 4
 Epoch:		1
 Source0:	http://ardour.org/releases/%{name}-%{version}.tar.bz2
 URL:		http://%{name}.sourceforge.net/
@@ -66,10 +66,14 @@ Encoding=UTF-8
 EOF
 
 # icons
-mkdir -p %{buildroot}%{_iconsdir}/hicolor/{16x16,22x22,32x32,48x48}/apps
+mkdir -p %{buildroot}/%{_liconsdir} %{buildroot}/%{_miconsdir}
+mkdir -p %{buildroot}/%{_iconsdir}/hicolor/{16x16,22x22,32x32,48x48}/apps
+cp gtk2_ardour/icons/ardour_icon_16px.png %{buildroot}/%{_miconsdir}/%name.png
 cp gtk2_ardour/icons/ardour_icon_16px.png %{buildroot}/%{_iconsdir}/hicolor/16x16/apps/%{name}.png
 cp gtk2_ardour/icons/ardour_icon_22px.png %{buildroot}/%{_iconsdir}/hicolor/22x22/apps/%{name}.png
+cp gtk2_ardour/icons/ardour_icon_32px.png %{buildroot}/%{_iconsdir}/%name.png
 cp gtk2_ardour/icons/ardour_icon_32px.png %{buildroot}/%{_iconsdir}/hicolor/32x32/apps/%{name}.png
+cp gtk2_ardour/icons/ardour_icon_48px.png %{buildroot}/%{_liconsdir}/%name.png
 cp gtk2_ardour/icons/ardour_icon_48px.png %{buildroot}/%{_iconsdir}/hicolor/48x48/apps/%{name}.png
 
 %find_lang %{name} --all-name
@@ -79,6 +83,7 @@ rm -rf %{buildroot}
 
 %post
 %{update_menus}
+%update_icon_cache hicolor
 
 %postun
 %{clean_menus}
@@ -109,3 +114,6 @@ rm -rf %{buildroot}
 %{_datadir}/%{oname}/*.png
 %{_datadir}/%{oname}/templates/*.template
 %{_iconsdir}/hicolor/*/apps/%{name}.png
+%{_iconsdir}/%name.png
+%{_liconsdir}/%name.png
+%{_miconsdir}/%name.png
