@@ -3,7 +3,7 @@
 Summary:   	Professional multitrack audio recording application
 Name:		ardour
 Version:	2.0.1
-Release:	%mkrel 2
+Release:	%mkrel 3
 Epoch:		1
 Source0:	http://ardour.org/releases/%{name}-%{version}.tar.bz2
 URL:		http://%{name}.sourceforge.net/
@@ -12,7 +12,6 @@ License:	GPL
 BuildRequires:	scons
 BuildRequires: 	libalsa-devel
 BuildRequires:	jackit-devel		>= 0.80.0
-BuildRequires:	libsndfile-devel	>= 1.0.18
 BuildRequires:	libsamplerate-devel
 BuildRequires:	liblrdf-devel
 Buildrequires:	liblo-devel
@@ -20,6 +19,8 @@ BuildRequires:	libglib2.0-devel
 BuildRequires:	libgnomecanvas2-devel
 BuildRequires:	libxslt-devel
 BuildRequires:	libboost-devel
+BuildConflicts:	libsndfile-devel
+BuildConflicts: libflac-devel
 Requires:	jackit			>= 0.80.0
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
@@ -36,7 +37,7 @@ and hardware control from surfaces like the Mackie Control Universal.
 If you've been looking for a tool similar to ProTools, Nuendo, Pyramix,
 or Sequoia, you might have found it. 
 
-You MUST have jackd running and an ALSA sound driver to use ardour. If
+You must have jackd running and an ALSA sound driver to use ardour. If
 you are new to jackd, try qjackctl.
 
 See the online user manual at http://ardour.org/files/manual/index.html
