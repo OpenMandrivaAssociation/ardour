@@ -3,7 +3,7 @@
 Summary:   	Professional multitrack audio recording application
 Name:		ardour
 Version:	2.0.1
-Release:	%mkrel 3
+Release:	%mkrel 4
 Epoch:		1
 Source0:	http://ardour.org/releases/%{name}-%{version}.tar.bz2
 URL:		http://%{name}.sourceforge.net/
@@ -52,6 +52,7 @@ scons PREFIX=%{_prefix}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
 scons DESTDIR=%{buildroot} install 
+mv %buildroot/%_bindir/ardour2 %buildroot/%_bindir/ardour
 
 mkdir -p %{buildroot}%{_datadir}/applications
 cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop << EOF
