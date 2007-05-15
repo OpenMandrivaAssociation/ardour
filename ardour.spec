@@ -105,7 +105,7 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/%{oname}/%{name}.bindings
 %config(noreplace) %{_sysconfdir}/%{oname}/%{name}.colors
 %config(noreplace) %{_sysconfdir}/%{oname}/%{name}.menus
-%{_bindir}/%{oname}
+%{_bindir}/%{name}
 %{_libdir}/%{oname}/*.so
 %{_libdir}/%{oname}/ardour-%{version}
 %{_libdir}/%{oname}/surfaces/*.so
