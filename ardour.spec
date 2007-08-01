@@ -2,57 +2,78 @@
 
 Summary:   	Professional multitrack audio recording application
 Name:		ardour
-Version:	2.0.3
+Version:	2.0.4
 Release:	%mkrel 1
 Epoch:		1
-Source0:	http://ardour.org/releases/%{name}-%{version}.tar.bz2
-URL:		http://%{name}.sourceforge.net/
 Group:		Sound
 License:	GPL
-BuildRequires:	scons
+URL:		http://%{name}.sourceforge.net/
+Source0:	http://ardour.org/releases/%{name}-%{version}.tar.bz2
+BuildRequires:	curl-devel
+BuildRequires:	fftw3-devel
+BuildRequires:	gettext >= 0.11.5
+BuildRequires:	gtk2-devel >= 2.8
+BuildRequires:	gtkmm2.4-devel >= 2.11.6
+BuildRequires:	jackit-devel >= 0.100
 BuildRequires: 	libalsa-devel
-BuildRequires:	jackit-devel		>= 0.80.0
-BuildRequires:	libsamplerate-devel
-BuildRequires:	liblrdf-devel
-Buildrequires:	liblo-devel
-BuildRequires:	libglib2.0-devel
-BuildRequires:	libgnomecanvas2-devel
-BuildRequires:	libxslt-devel
+BuildRequires:	libart_lgpl-devel >= 2.3.16
 BuildRequires:	libboost-devel
-BuildConflicts:	libsndfile-devel
-BuildConflicts: libflac-devel
-Requires:	jackit			>= 0.80.0
+BuildRequires:	libflac-devel
+BuildRequires:	libglib2.0-devel >= 2.10
+BuildRequires:	libgnomecanvas2-devel
+BuildRequires:	libgnomecanvasmm2.6-devel
+BuildRequires:	liblo-devel
+BuildRequires:	liblrdf-devel >= 0.3.1
+BuildRequires:	libsamplerate-devel >= 0.0.13
+BuildRequires:	libsndfile-devel >= 1.0.16
+BuildRequires:	libtool
+BuildRequires: 	libusb-devel
+BuildRequires:	libxml2-devel >= 2.5.0
+BuildRequires:	libxslt-devel
+BuildRequires:	pkgconfig
+BuildRequires:	raptor-devel
+BuildRequires:	scons >= 0.96
+BuildRequires:	soundtouch-devel
+BuildRequires:	sqlite3-devel
+Requires:	jackit >= 0.100
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
-Ardour is a digital audio workstation.You can use it to record,
-edit and mix multi-track audio. You can produce your own CDs,
-mix video soundtracks, or just experiment with new ideas about
-music and sound.
+Ardour is a digital audio workstation.You can use it to record, edit and mix
+multi-track audio. You can produce your own CDs, mix video soundtracks, or just
+experiment with new ideas about music and sound.
 
-Ardour capabilities include: multichannel recording, non-destructive 
-editing with unlimited undo/redo, full automation support, a powerful 
-mixer, unlimited tracks/busses/plugins, timecode synchronization, 
-and hardware control from surfaces like the Mackie Control Universal.
-If you've been looking for a tool similar to ProTools, Nuendo, Pyramix,
-or Sequoia, you might have found it. 
+Ardour capabilities include: multichannel recording, non-destructive editing
+with unlimited undo/redo, full automation support, a powerful mixer, unlimited
+tracks/busses/plugins, timecode synchronization, and hardware control from
+surfaces like the Mackie Control Universal. If you've been looking for a tool
+similar to ProTools, Nuendo, Pyramix, or Sequoia, you might have found it.
 
-You must have jackd running and an ALSA sound driver to use ardour. If
-you are new to jackd, try qjackctl.
+You must have jackd running and an ALSA sound driver to use ardour. If you are
+new to jackd, try qjackctl.
 
 See the online user manual at http://ardour.org/files/manual/index.html
 
+Important notice: This package is built against the system libraries in
+Mandriva, and in the SConstruct file there is a text that seems to invalidate
+support from upstream authors "USE AT YOUR OWN RISK: CANCELS ALL SUPPORT FROM
+ARDOUR AUTHORS".
+
 %prep
+
 %setup -q
 
 %build
-scons PREFIX=%{_prefix}
+scons PREFIX="%{_prefix}" ARCH="%{optflags}" FFT_ANALYSIS="1" LIBDIR="%{_libdir}" SYSLIBS="1"
 
 %install
 rm -rf %{buildroot}
+
 mkdir -p %{buildroot}
+
 scons DESTDIR=%{buildroot} install 
-mv %buildroot/%_bindir/ardour2 %buildroot/%_bindir/ardour
+
+mv %{buildroot}/%{_bindir}/ardour2 %{buildroot}/%{_bindir}/ardour
 
 mkdir -p %{buildroot}%{_datadir}/applications
 cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop << EOF
@@ -70,12 +91,12 @@ EOF
 # icons
 mkdir -p %{buildroot}/%{_liconsdir} %{buildroot}/%{_miconsdir}
 mkdir -p %{buildroot}/%{_iconsdir}/hicolor/{16x16,22x22,32x32,48x48}/apps
-cp gtk2_ardour/icons/ardour_icon_16px.png %{buildroot}/%{_miconsdir}/%name.png
+cp gtk2_ardour/icons/ardour_icon_16px.png %{buildroot}/%{_miconsdir}/%{name}.png
 cp gtk2_ardour/icons/ardour_icon_16px.png %{buildroot}/%{_iconsdir}/hicolor/16x16/apps/%{name}.png
 cp gtk2_ardour/icons/ardour_icon_22px.png %{buildroot}/%{_iconsdir}/hicolor/22x22/apps/%{name}.png
-cp gtk2_ardour/icons/ardour_icon_32px.png %{buildroot}/%{_iconsdir}/%name.png
+cp gtk2_ardour/icons/ardour_icon_32px.png %{buildroot}/%{_iconsdir}/%{name}.png
 cp gtk2_ardour/icons/ardour_icon_32px.png %{buildroot}/%{_iconsdir}/hicolor/32x32/apps/%{name}.png
-cp gtk2_ardour/icons/ardour_icon_48px.png %{buildroot}/%{_liconsdir}/%name.png
+cp gtk2_ardour/icons/ardour_icon_48px.png %{buildroot}/%{_liconsdir}/%{name}.png
 cp gtk2_ardour/icons/ardour_icon_48px.png %{buildroot}/%{_iconsdir}/hicolor/48x48/apps/%{name}.png
 
 %find_lang %{name} --all-name
@@ -84,11 +105,11 @@ cp gtk2_ardour/icons/ardour_icon_48px.png %{buildroot}/%{_iconsdir}/hicolor/48x4
 rm -rf %{buildroot}
 
 %post
-%{update_menus}
+%update_menus
 %update_icon_cache hicolor
 
 %postun
-%{clean_menus}
+%clean_menus
 
 %files -f %{name}.lang
 %defattr(-,root,root)
@@ -99,12 +120,12 @@ rm -rf %{buildroot}
 %dir %{_datadir}/%{oname}/icons
 %dir %{_datadir}/%{oname}/pixmaps
 %dir %{_datadir}/%{oname}/templates
-%config(noreplace) %{_sysconfdir}/%{oname}/%{name}.rc
-%config(noreplace) %{_sysconfdir}/%{oname}/%{name}_system.rc
-%config(noreplace) %{_sysconfdir}/%{oname}/%{oname}_ui.rc
-%config(noreplace) %{_sysconfdir}/%{oname}/%{name}.bindings
-%config(noreplace) %{_sysconfdir}/%{oname}/%{name}.colors
-%config(noreplace) %{_sysconfdir}/%{oname}/%{name}.menus
+%config(noreplace) %{_sysconfdir}/%{oname}/ardour2_ui_dark.rc
+%config(noreplace) %{_sysconfdir}/%{oname}/ardour2_ui_default.conf
+%config(noreplace) %{_sysconfdir}/%{oname}/ardour2_ui_light.rc
+%config(noreplace) %{_sysconfdir}/%{oname}/ardour.bindings
+%config(noreplace) %{_sysconfdir}/%{oname}/ardour.menus
+%config(noreplace) %{_sysconfdir}/%{oname}/ardour_system.rc
 %{_bindir}/%{name}
 %{_libdir}/%{oname}/*.so
 %{_libdir}/%{oname}/ardour-%{version}
@@ -116,6 +137,6 @@ rm -rf %{buildroot}
 %{_datadir}/%{oname}/*.png
 %{_datadir}/%{oname}/templates/*.template
 %{_iconsdir}/hicolor/*/apps/%{name}.png
-%{_iconsdir}/%name.png
-%{_liconsdir}/%name.png
-%{_miconsdir}/%name.png
+%{_iconsdir}/%{name}.png
+%{_liconsdir}/%{name}.png
+%{_miconsdir}/%{name}.png
