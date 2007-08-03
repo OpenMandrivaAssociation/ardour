@@ -3,7 +3,7 @@
 Summary:   	Professional multitrack audio recording application
 Name:		ardour
 Version:	2.0.4
-Release:	%mkrel 1
+Release:	%mkrel 2
 Epoch:		1
 Group:		Sound
 License:	GPL
@@ -33,7 +33,7 @@ BuildRequires:	libxslt-devel
 BuildRequires:	pkgconfig
 BuildRequires:	raptor-devel
 BuildRequires:	scons >= 0.96
-BuildRequires:	soundtouch-devel
+BuildRequires:	soundtouch-devel >= 1.3.1
 BuildRequires:	sqlite3-devel
 Requires:	jackit >= 0.100
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
