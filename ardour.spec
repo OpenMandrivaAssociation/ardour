@@ -2,8 +2,8 @@
 
 Summary:   	Professional multitrack audio recording application
 Name:		ardour
-Version:	2.0.4
-Release:	%mkrel 2
+Version:	2.0.5
+Release:	%mkrel 1
 Epoch:		1
 Group:		Sound
 License:	GPL
@@ -13,7 +13,7 @@ BuildRequires:	curl-devel
 BuildRequires:	fftw3-devel
 BuildRequires:	gettext >= 0.11.5
 BuildRequires:	gtk2-devel >= 2.8
-BuildRequires:	gtkmm2.4-devel >= 2.11.6
+BuildRequires:	gtkmm2.4-devel >= 2.10.8
 BuildRequires:	jackit-devel >= 0.100
 BuildRequires: 	libalsa-devel
 BuildRequires:	libart_lgpl-devel >= 2.3.16
