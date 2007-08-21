@@ -9,6 +9,7 @@ Group:		Sound
 License:	GPL
 URL:		http://%{name}.sourceforge.net/
 Source0:	http://ardour.org/releases/%{name}-%{version}.tar.bz2
+Patch0:		ardour-2.0.5-fix_compile.patch
 BuildRequires:	curl-devel
 BuildRequires:	fftw3-devel
 BuildRequires:	gettext >= 0.11.5
@@ -62,6 +63,7 @@ ARDOUR AUTHORS".
 %prep
 
 %setup -q
+%patch0 -p1 -b .fix_compile
 
 %build
 scons PREFIX="%{_prefix}" ARCH="%{optflags}" FFT_ANALYSIS="1" LIBDIR="%{_libdir}" SYSLIBS="1"
