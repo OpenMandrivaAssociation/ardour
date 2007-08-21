@@ -3,13 +3,15 @@
 Summary:   	Professional multitrack audio recording application
 Name:		ardour
 Version:	2.0.5
-Release:	%mkrel 1
+Release:	%mkrel 2
 Epoch:		1
 Group:		Sound
 License:	GPL
 URL:		http://%{name}.sourceforge.net/
 Source0:	http://ardour.org/releases/%{name}-%{version}.tar.bz2
-Patch0:		ardour-2.0.5-fix_compile.patch
+Patch0:		ardour-gtk-2.11_fix.diff
+Patch1:		ardour-2.0.5-fix_compile.patch
+Patch2:		ardour-no_snd-seq_crashfix.diff
 BuildRequires:	curl-devel
 BuildRequires:	fftw3-devel
 BuildRequires:	gettext >= 0.11.5
@@ -63,10 +65,13 @@ ARDOUR AUTHORS".
 %prep
 
 %setup -q
-%patch0 -p1 -b .fix_compile
+%patch0 -p0
+%patch1 -p1
+%patch2 -p0
 
 %build
-scons PREFIX="%{_prefix}" ARCH="%{optflags}" FFT_ANALYSIS="1" LIBDIR="%{_libdir}" SYSLIBS="1"
+scons %{_smp_mflags} PREFIX="%{_prefix}" FFT_ANALYSIS="1" LIBDIR="%{_libdir}" SYSLIBS="1"
+#scons %{_smp_mflags} PREFIX="%{_prefix}" FFT_ANALYSIS="1" LIBDIR="%{_libdir}" SYSLIBS="0" DEBUG=1
 
 %install
 rm -rf %{buildroot}
@@ -130,7 +135,7 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/%{oname}/ardour_system.rc
 %{_bindir}/%{name}
 %{_libdir}/%{oname}/*.so
-%{_libdir}/%{oname}/ardour-%{version}
+%{_libdir}/%{oname}/ardour-*
 %{_libdir}/%{oname}/surfaces/*.so
 %{_libdir}/%{oname}/engines/*.so
 %{_datadir}/applications/mandriva-ardour.desktop
