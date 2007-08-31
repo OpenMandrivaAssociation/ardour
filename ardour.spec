@@ -3,7 +3,7 @@
 Summary:   	Professional multitrack audio recording application
 Name:		ardour
 Version:	2.0.5
-Release:	%mkrel 2
+Release:	%mkrel 6
 Epoch:		1
 Group:		Sound
 License:	GPL
@@ -86,12 +86,12 @@ mkdir -p %{buildroot}%{_datadir}/applications
 cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop << EOF
 [Desktop Entry]
 Name=Ardour
-Comment=%{summary}
+Comment=Professional multitrack audio recording application
 Exec=%{_bindir}/%{name}
 Icon=%{name}
 Terminal=false
 Type=Application
-Categories=GTK;AudioVideo;Audio;AudioVideoEditing;X-MandrivaLinux-Multimedia-Sound;
+Categories=GTK;AudioVideo;Audio;AudioVideoEditing;
 EOF
 
 # icons
