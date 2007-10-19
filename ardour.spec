@@ -2,16 +2,14 @@
 
 Summary:   	Professional multitrack audio recording application
 Name:		ardour
-Version:	2.0.5
-Release:	%mkrel 6
+Version:	2.1
+Release:	%mkrel 1
 Epoch:		1
 Group:		Sound
-License:	GPL
+License:	GPLv2+
 URL:		http://%{name}.sourceforge.net/
 Source0:	http://ardour.org/releases/%{name}-%{version}.tar.bz2
-Patch0:		ardour-gtk-2.11_fix.diff
 Patch1:		ardour-2.0.5-fix_compile.patch
-Patch2:		ardour-no_snd-seq_crashfix.diff
 BuildRequires:	curl-devel
 BuildRequires:	fftw3-devel
 BuildRequires:	gettext >= 0.11.5
@@ -65,12 +63,10 @@ ARDOUR AUTHORS".
 %prep
 
 %setup -q
-%patch0 -p0
 %patch1 -p1
-%patch2 -p0
 
 %build
-scons %{_smp_mflags} PREFIX="%{_prefix}" FFT_ANALYSIS="1" LIBDIR="%{_libdir}" SYSLIBS="1"
+scons %{_smp_mflags} PREFIX="%{_prefix}" FFT_ANALYSIS="1" LIBDIR="%{_libdir}" SYSLIBS="1" SURFACES="1" LIBLO="1" TRANZPORT="1" NLS="1"
 #scons %{_smp_mflags} PREFIX="%{_prefix}" FFT_ANALYSIS="1" LIBDIR="%{_libdir}" SYSLIBS="0" DEBUG=1
 
 %install
@@ -97,12 +93,9 @@ EOF
 # icons
 mkdir -p %{buildroot}/%{_liconsdir} %{buildroot}/%{_miconsdir}
 mkdir -p %{buildroot}/%{_iconsdir}/hicolor/{16x16,22x22,32x32,48x48}/apps
-cp gtk2_ardour/icons/ardour_icon_16px.png %{buildroot}/%{_miconsdir}/%{name}.png
 cp gtk2_ardour/icons/ardour_icon_16px.png %{buildroot}/%{_iconsdir}/hicolor/16x16/apps/%{name}.png
 cp gtk2_ardour/icons/ardour_icon_22px.png %{buildroot}/%{_iconsdir}/hicolor/22x22/apps/%{name}.png
-cp gtk2_ardour/icons/ardour_icon_32px.png %{buildroot}/%{_iconsdir}/%{name}.png
 cp gtk2_ardour/icons/ardour_icon_32px.png %{buildroot}/%{_iconsdir}/hicolor/32x32/apps/%{name}.png
-cp gtk2_ardour/icons/ardour_icon_48px.png %{buildroot}/%{_liconsdir}/%{name}.png
 cp gtk2_ardour/icons/ardour_icon_48px.png %{buildroot}/%{_iconsdir}/hicolor/48x48/apps/%{name}.png
 
 %find_lang %{name} --all-name
@@ -111,11 +104,12 @@ cp gtk2_ardour/icons/ardour_icon_48px.png %{buildroot}/%{_iconsdir}/hicolor/48x4
 rm -rf %{buildroot}
 
 %post
-%update_menus
+%{update_menus}
 %update_icon_cache hicolor
 
 %postun
-%clean_menus
+%{clean_menus}
+%clean_icon_cache hicolor
 
 %files -f %{name}.lang
 %defattr(-,root,root)
@@ -143,6 +137,3 @@ rm -rf %{buildroot}
 %{_datadir}/%{oname}/*.png
 %{_datadir}/%{oname}/templates/*.template
 %{_iconsdir}/hicolor/*/apps/%{name}.png
-%{_iconsdir}/%{name}.png
-%{_liconsdir}/%{name}.png
-%{_miconsdir}/%{name}.png
