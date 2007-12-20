@@ -37,6 +37,7 @@ BuildRequires:	scons >= 0.96
 BuildRequires:	soundtouch-devel >= 1.3.1
 BuildRequires:	sqlite3-devel
 Requires:	jackit >= 0.100
+BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
 Ardour is a digital audio workstation.You can use it to record, edit and mix
