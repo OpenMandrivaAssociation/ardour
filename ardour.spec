@@ -2,7 +2,7 @@
 
 Summary:   	Professional multitrack audio recording application
 Name:		ardour
-Version:	2.1
+Version:	2.2
 Release:	%mkrel 1
 Epoch:		1
 Group:		Sound
