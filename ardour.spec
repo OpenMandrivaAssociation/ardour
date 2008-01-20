@@ -126,6 +126,9 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/%{oname}/ardour.bindings
 %config(noreplace) %{_sysconfdir}/%{oname}/ardour.menus
 %config(noreplace) %{_sysconfdir}/%{oname}/ardour_system.rc
+%config(noreplace) %{_sysconfdir}/%{oname}/ardour-sae-ansi.bindings
+%config(noreplace) %{_sysconfdir}/%{oname}/ardour-sae-de.bindings
+%config(noreplace) %{_sysconfdir}/%{oname}/ardour-sae.menus
 %{_bindir}/%{name}
 %{_libdir}/%{oname}/*.so
 %{_libdir}/%{oname}/ardour-*
