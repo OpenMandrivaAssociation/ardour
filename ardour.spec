@@ -3,12 +3,13 @@
 Summary:   	Professional multitrack audio recording application
 Name:		ardour
 Version:	2.2
-Release:	%mkrel 1
+Release:	%mkrel 2
 Epoch:		1
 Group:		Sound
 License:	GPLv2+
 URL:		http://%{name}.sourceforge.net/
 Source0:	http://ardour.org/releases/%{name}-%{version}.tar.bz2
+Patch0:		%{name}-2.2-SConstruct.patch
 Patch1:		ardour-2.0.5-fix_compile.patch
 BuildRequires:	curl-devel
 BuildRequires:	fftw3-devel
@@ -27,7 +28,6 @@ BuildRequires:	liblo-devel
 BuildRequires:	liblrdf-devel >= 0.3.1
 BuildRequires:	libsamplerate-devel >= 0.0.13
 BuildRequires:	libsndfile-devel >= 1.0.16
-BuildRequires:	libtool
 BuildRequires: 	libusb-devel
 BuildRequires:	libxml2-devel >= 2.5.0
 BuildRequires:	libxslt-devel
@@ -63,11 +63,34 @@ ARDOUR AUTHORS".
 %prep
 
 %setup -q
+%patch0 -p1
 %patch1 -p1
 
 %build
-scons %{_smp_mflags} PREFIX="%{_prefix}" FFT_ANALYSIS="1" LIBDIR="%{_libdir}" SYSLIBS="1" SURFACES="1" LIBLO="1" TRANZPORT="1" NLS="1"
-#scons %{_smp_mflags} PREFIX="%{_prefix}" FFT_ANALYSIS="1" LIBDIR="%{_libdir}" SYSLIBS="0" DEBUG=1
+#(tpg) disable strange optimisations, like SSE
+%ifarch %{ix86}
+TARGETCPU=i686
+%endif
+%ifarch x86_64
+TARGETCPU=x86_64
+%endif
+%ifarch ppc
+TARGETCPU=powerpc
+%endif
+%ifarch ppc64
+TARGETCPU=powerpc64
+%endif
+
+scons %{?_smp_mflags} PREFIX=%{_prefix} \
+      DIST_TARGET="${TARGETCPU}" \
+      ARCH="%{optflags} -ffast-math" \
+      FFT_ANALYSIS="1" \
+      LIBDIR="%{_libdir}" \
+      SYSLIBS="1" \
+      SURFACES="1" \
+      LIBLO="1" \
+      TRANZPORT="1" \
+      NLS="1"
 
 %install
 rm -rf %{buildroot}
