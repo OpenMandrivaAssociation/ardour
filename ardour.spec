@@ -42,6 +42,7 @@ BuildRequires:	scons >= 0.96
 BuildRequires:	slv2-devel >= 0.6.0
 BuildRequires:	soundtouch-devel >= 1.3.1
 BuildRequires:	sqlite3-devel
+BuildRequires:	lv2core-devel
 #BuildRequires:	vamp-plugin-sdk-devel
 #BuildRequires:	rubberband-devel
 Requires:	jackit >= 0.100
