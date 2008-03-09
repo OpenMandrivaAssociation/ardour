@@ -11,8 +11,12 @@ URL:		http://%{name}.sourceforge.net/
 Source0:	http://ardour.org/releases/%{name}-%{version}.tar.bz2
 Patch0:		%{name}-2.2-SConstruct.patch
 Patch1:		ardour-2.0.5-fix_compile.patch
+Patch2:		SConstruct-soundtouch-1.0.diff
+Patch3:		ardour-session.cc-no_stomp.patch
+Patch4:		ardour-session.cc-_total_free_4k_blocks.patch
 BuildRequires:	curl-devel
 BuildRequires:	fftw3-devel
+BuildRequires:	gettext >= 0.11.5
 BuildRequires:	gettext >= 0.11.5
 BuildRequires:	gtk2-devel >= 2.8
 BuildRequires:	gtkmm2.4-devel >= 2.10.8
@@ -28,14 +32,18 @@ BuildRequires:	liblo-devel
 BuildRequires:	liblrdf-devel >= 0.3.1
 BuildRequires:	libsamplerate-devel >= 0.0.13
 BuildRequires:	libsndfile-devel >= 1.0.16
+BuildRequires:	libtool
 BuildRequires: 	libusb-devel
 BuildRequires:	libxml2-devel >= 2.5.0
 BuildRequires:	libxslt-devel
 BuildRequires:	pkgconfig
 BuildRequires:	raptor-devel
 BuildRequires:	scons >= 0.96
+BuildRequires:	slv2-devel >= 0.6.0
 BuildRequires:	soundtouch-devel >= 1.3.1
 BuildRequires:	sqlite3-devel
+#BuildRequires:	vamp-plugin-sdk-devel
+#BuildRequires:	rubberband-devel
 Requires:	jackit >= 0.100
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
@@ -62,9 +70,12 @@ ARDOUR AUTHORS".
 
 %prep
 
-%setup -q
-%patch0 -p1
+%setup -q -n %{name}-2.3
+%patch0 -p0
 %patch1 -p1
+%patch2 -p0
+%patch3 -p0
+%patch4 -p0
 
 %build
 #(tpg) disable strange optimisations, like SSE
@@ -89,6 +100,7 @@ scons %{?_smp_mflags} PREFIX=%{_prefix} \
       SYSLIBS="1" \
       SURFACES="1" \
       LIBLO="1" \
+      LV2="1" \
       TRANZPORT="1" \
       NLS="1"
 
@@ -123,16 +135,16 @@ cp gtk2_ardour/icons/ardour_icon_48px.png %{buildroot}/%{_iconsdir}/hicolor/48x4
 
 %find_lang %{name} --all-name
 
-%clean
-rm -rf %{buildroot}
-
 %post
-%{update_menus}
+%update_menus
 %update_icon_cache hicolor
 
 %postun
-%{clean_menus}
+%clean_menus
 %clean_icon_cache hicolor
+
+%clean
+rm -rf %{buildroot}
 
 %files -f %{name}.lang
 %defattr(-,root,root)
@@ -157,6 +169,7 @@ rm -rf %{buildroot}
 %{_libdir}/%{oname}/ardour-*
 %{_libdir}/%{oname}/surfaces/*.so
 %{_libdir}/%{oname}/engines/*.so
+%{_libdir}/%{oname}/vamp/*.so
 %{_datadir}/applications/mandriva-ardour.desktop
 %{_datadir}/%{oname}/icons/*.png
 %{_datadir}/%{oname}/pixmaps/*.xpm
