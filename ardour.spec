@@ -7,7 +7,7 @@ Release:	%mkrel 1
 Epoch:		1
 Group:		Sound
 License:	GPLv2+
-URL:		http://%{name}.sourceforge.net/
+URL:		http://ardour.org/
 Source0:	http://ardour.org/releases/%{name}-%{version}.tar.bz2
 Patch0:		%{name}-2.2-SConstruct.patch
 Patch1:		ardour-2.0.5-fix_compile.patch
