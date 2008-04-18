@@ -2,7 +2,7 @@
 
 Summary:   	Professional multitrack audio recording application
 Name:		ardour
-Version:	2.3.1
+Version:	2.4.1
 Release:	%mkrel 1
 Epoch:		1
 Group:		Sound
@@ -71,7 +71,7 @@ ARDOUR AUTHORS".
 
 %prep
 
-%setup -q -n %{name}-2.3
+%setup -q
 %patch0 -p0
 %patch1 -p1
 %patch2 -p0
@@ -159,11 +159,11 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/%{oname}/ardour2_ui_dark.rc
 %config(noreplace) %{_sysconfdir}/%{oname}/ardour2_ui_default.conf
 %config(noreplace) %{_sysconfdir}/%{oname}/ardour2_ui_light.rc
-%config(noreplace) %{_sysconfdir}/%{oname}/ardour.bindings
+%config(noreplace) %{_sysconfdir}/%{oname}/SAE-de.bindings
 %config(noreplace) %{_sysconfdir}/%{oname}/ardour.menus
 %config(noreplace) %{_sysconfdir}/%{oname}/ardour_system.rc
-%config(noreplace) %{_sysconfdir}/%{oname}/ardour-sae-ansi.bindings
-%config(noreplace) %{_sysconfdir}/%{oname}/ardour-sae-de.bindings
+%config(noreplace) %{_sysconfdir}/%{oname}/ergonomic-us.bindings
+%config(noreplace) %{_sysconfdir}/%{oname}/mnemonic-us.bindings
 %config(noreplace) %{_sysconfdir}/%{oname}/ardour-sae.menus
 %{_bindir}/%{name}
 %{_libdir}/%{oname}/*.so
