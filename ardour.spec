@@ -14,6 +14,7 @@ Patch1:		ardour-2.0.5-fix_compile.patch
 Patch2:		SConstruct-soundtouch-1.0.diff
 Patch3:		ardour-session.cc-no_stomp.patch
 Patch4:		ardour-session.cc-_total_free_4k_blocks.patch
+Patch5:		ardour-2.4-gcc43.patch
 BuildRequires:	curl-devel
 BuildRequires:	fftw3-devel
 BuildRequires:	gettext >= 0.11.5
@@ -77,6 +78,7 @@ ARDOUR AUTHORS".
 %patch2 -p0
 %patch3 -p0
 %patch4 -p0
+%patch5 -p1
 
 %build
 #(tpg) disable strange optimisations, like SSE
