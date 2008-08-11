@@ -14,10 +14,8 @@ Patch1:		ardour-2.0.5-fix_compile.patch
 Patch2:		SConstruct-soundtouch-1.0.diff
 Patch3:		ardour-session.cc-no_stomp.patch
 Patch4:		ardour-session.cc-_total_free_4k_blocks.patch
-Patch5:		ardour-2.4-gcc43.patch
 BuildRequires:	curl-devel
 BuildRequires:	fftw3-devel
-BuildRequires:	gettext >= 0.11.5
 BuildRequires:	gettext >= 0.11.5
 BuildRequires:	gtk2-devel >= 2.8
 BuildRequires:	gtkmm2.4-devel >= 2.10.8
@@ -46,7 +44,12 @@ BuildRequires:	sqlite3-devel
 BuildRequires:	lv2core-devel
 #BuildRequires:	vamp-plugin-sdk-devel
 #BuildRequires:	rubberband-devel
+BuildRequires:	aubio-devel
+BuildRequires:	xdg-utils
+BuildRequires:	shared-mime-info
 Requires:	jackit >= 0.100
+Requires(pre):	xdg-utils
+Requires(pre):	shared-mime-info
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
@@ -78,7 +81,6 @@ ARDOUR AUTHORS".
 %patch2 -p0
 %patch3 -p0
 %patch4 -p0
-%patch5 -p1
 
 %build
 #(tpg) disable strange optimisations, like SSE
@@ -105,7 +107,9 @@ scons %{?_smp_mflags} PREFIX=%{_prefix} \
       LIBLO="1" \
       LV2="1" \
       TRANZPORT="1" \
-      NLS="1"
+      NLS="1" \
+      FREEDESKTOP="1" \
+      AUBIO="1"
 
 %install
 rm -rf %{buildroot}
