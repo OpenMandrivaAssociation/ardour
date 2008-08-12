@@ -13,7 +13,6 @@ Patch0:		%{name}-2.2-SConstruct.patch
 Patch1:		ardour-2.0.5-fix_compile.patch
 Patch2:		SConstruct-soundtouch-1.0.diff
 Patch3:		ardour-session.cc-no_stomp.patch
-Patch4:		ardour-session.cc-_total_free_4k_blocks.patch
 BuildRequires:	curl-devel
 BuildRequires:	fftw3-devel
 BuildRequires:	gettext >= 0.11.5
@@ -80,36 +79,38 @@ ARDOUR AUTHORS".
 %patch1 -p1
 %patch2 -p0
 %patch3 -p0
-%patch4 -p0
 
 %build
 #(tpg) disable strange optimisations, like SSE
 %ifarch %{ix86}
-TARGETCPU=i686
+TARGETCPU="i686"
+ARCHFLAGS="-DARCH_X86"
 %endif
 %ifarch x86_64
-TARGETCPU=x86_64
+TARGETCPU="x86_64"
+ARCHFLAGS="-DARCH_X86 -DBUILD_SSE_OPTIMIZATIONS -DUSE_X86_64_ASM"
 %endif
 %ifarch ppc
-TARGETCPU=powerpc
+TARGETCPU="powerpc"
 %endif
 %ifarch ppc64
-TARGETCPU=powerpc64
+TARGETCPU="powerpc64"
 %endif
 
-scons %{?_smp_mflags} PREFIX=%{_prefix} \
-      DIST_TARGET="${TARGETCPU}" \
-      ARCH="%{optflags} -ffast-math" \
-      FFT_ANALYSIS="1" \
-      LIBDIR="%{_libdir}" \
-      SYSLIBS="1" \
-      SURFACES="1" \
-      LIBLO="1" \
-      LV2="1" \
-      TRANZPORT="1" \
-      NLS="1" \
-      FREEDESKTOP="1" \
-      AUBIO="1"
+scons %{?_smp_mflags} \
+	PREFIX=%{_prefix} \
+	DIST_TARGET="${TARGETCPU}" \
+	ARCH="%{optflags} -ffast-math ${ARCHFLAGS}" \
+	FFT_ANALYSIS="1" \
+	LIBDIR="%{_libdir}" \
+	SYSLIBS="1" \
+	SURFACES="1" \
+	LIBLO="1" \
+	LV2="1" \
+	TRANZPORT="1" \
+	NLS="1" \
+	FREEDESKTOP="1" \
+	AUBIO="1"
 
 %install
 rm -rf %{buildroot}
