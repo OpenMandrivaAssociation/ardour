@@ -103,7 +103,7 @@ scons %{?_smp_mflags} \
 	ARCH="%{optflags} -ffast-math ${ARCHFLAGS}" \
 	FFT_ANALYSIS="1" \
 	LIBDIR="%{_libdir}" \
-	SYSLIBS="1" \
+	SYSLIBS="0" \
 	SURFACES="1" \
 	LIBLO="1" \
 	LV2="1" \
