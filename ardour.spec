@@ -2,13 +2,13 @@
 
 Summary:   	Professional multitrack audio recording application
 Name:		ardour
-Version:	2.5
+Version:	2.6.1
 Release:	%mkrel 1
 Epoch:		1
 Group:		Sound
 License:	GPLv2+
 URL:		http://ardour.org/
-Source0:	http://ardour.org/releases/%{name}-%{version}.tar.bz2
+Source0:	http://ardour.org/releases/%{name}-%{version}-4010.tar.bz2
 Patch0:		%{name}-2.2-SConstruct.patch
 Patch1:		ardour-2.0.5-fix_compile.patch
 Patch2:		SConstruct-soundtouch-1.0.diff
