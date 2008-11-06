@@ -11,7 +11,6 @@ URL:		http://ardour.org/
 Source0:	http://ardour.org/releases/%{name}-%{version}-4010.tar.bz2
 Patch0:		%{name}-2.2-SConstruct.patch
 Patch1:		ardour-2.0.5-fix_compile.patch
-Patch2:		SConstruct-soundtouch-1.0.diff
 Patch3:		ardour-session.cc-no_stomp.patch
 Patch4:		ardour-2.5-gcc43.patch
 BuildRequires:	curl-devel
@@ -78,7 +77,6 @@ ARDOUR AUTHORS".
 %setup -q
 %patch0 -p0
 %patch1 -p1
-%patch2 -p0
 %patch3 -p0
 %patch4 -p1
 
@@ -105,14 +103,15 @@ scons %{?_smp_mflags} \
 	ARCH="%{optflags} -ffast-math ${ARCHFLAGS}" \
 	FFT_ANALYSIS="1" \
 	LIBDIR="%{_libdir}" \
-	SYSLIBS="0" \
+	SYSLIBS="1" \
 	SURFACES="1" \
 	LIBLO="1" \
 	LV2="1" \
 	TRANZPORT="1" \
 	NLS="1" \
 	FREEDESKTOP="1" \
-	AUBIO="1"
+	AUBIO="1" \
+	FPU_OPTIMIZATION="1"
 
 %install
 rm -rf %{buildroot}
