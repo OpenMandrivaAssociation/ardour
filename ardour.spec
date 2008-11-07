@@ -103,7 +103,11 @@ scons %{?_smp_mflags} \
 	ARCH="%{optflags} -ffast-math ${ARCHFLAGS}" \
 	FFT_ANALYSIS="1" \
 	LIBDIR="%{_libdir}" \
+	%if %mdkversion > 200900
 	SYSLIBS="1" \
+	%else
+	SYSLIBS="0" \
+	%endif
 	SURFACES="1" \
 	LIBLO="1" \
 	LV2="1" \
