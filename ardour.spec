@@ -97,7 +97,7 @@ TARGETCPU="powerpc"
 TARGETCPU="powerpc64"
 %endif
 
-scons %{?_smp_mflags} \
+%scons \
 	PREFIX=%{_prefix} \
 	DIST_TARGET="${TARGETCPU}" \
 	ARCH="%{optflags} -ffast-math ${ARCHFLAGS}" \
@@ -181,6 +181,12 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/%{oname}/ergonomic-us.bindings
 %config(noreplace) %{_sysconfdir}/%{oname}/mnemonic-us.bindings
 %config(noreplace) %{_sysconfdir}/%{oname}/ardour-sae.menus
+%config(noreplace) %{_sysconfdir}/%{oname}/SAE-de-keypad.bindings
+%config(noreplace) %{_sysconfdir}/%{oname}/SAE-de-nokeypad.bindings
+%config(noreplace) %{_sysconfdir}/%{oname}/SAE-us-keypad.bindings
+%config(noreplace) %{_sysconfdir}/%{oname}/SAE-us-nokeypad.bindings
+%config(noreplace) %{_sysconfdir}/%{oname}/ardour2_ui_dark_sae.rc
+%config(noreplace) %{_sysconfdir}/%{oname}/ardour2_ui_light_sae.rc               
 %{_bindir}/%{name}
 %{_libdir}/%{oname}/*.so
 %{_libdir}/%{oname}/ardour-*
