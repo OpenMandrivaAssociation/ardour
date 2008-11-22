@@ -42,10 +42,11 @@ BuildRequires:	soundtouch-devel >= 1.3.1
 BuildRequires:	sqlite3-devel
 BuildRequires:	lv2core-devel
 #BuildRequires:	vamp-plugin-sdk-devel
-#BuildRequires:	rubberband-devel
+BuildRequires:	rubberband-devel
 BuildRequires:	aubio-devel
 BuildRequires:	xdg-utils
 BuildRequires:	shared-mime-info
+BuildRequires:	cwiid-devel
 Requires:	jackit >= 0.100
 Requires(pre):	xdg-utils
 Requires(pre):	shared-mime-info
@@ -115,7 +116,9 @@ TARGETCPU="powerpc64"
 	NLS="1" \
 	FREEDESKTOP="1" \
 	AUBIO="1" \
-	FPU_OPTIMIZATION="1"
+	FPU_OPTIMIZATION="1" \
+	WIIMOTE="1" \
+	FREESOUND="1"
 
 %install
 rm -rf %{buildroot}
@@ -165,7 +168,7 @@ rm -rf %{buildroot}
 
 %files -f %{name}.lang
 %defattr(-,root,root)
-%doc DOCUMENTATION/{AUTHORS*,CONTRIBUTORS*,FAQ*,README*,TRANSLATORS*}
+%doc README PACKAGER_README
 %dir %{_sysconfdir}/%{oname}
 %dir %{_libdir}/%{oname}
 %dir %{_datadir}/%{oname}
@@ -175,7 +178,6 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/%{oname}/ardour2_ui_dark.rc
 %config(noreplace) %{_sysconfdir}/%{oname}/ardour2_ui_default.conf
 %config(noreplace) %{_sysconfdir}/%{oname}/ardour2_ui_light.rc
-%config(noreplace) %{_sysconfdir}/%{oname}/SAE-de.bindings
 %config(noreplace) %{_sysconfdir}/%{oname}/ardour.menus
 %config(noreplace) %{_sysconfdir}/%{oname}/ardour_system.rc
 %config(noreplace) %{_sysconfdir}/%{oname}/ergonomic-us.bindings
