@@ -2,7 +2,7 @@
 
 Summary:   	Professional multitrack audio recording application
 Name:		ardour
-Version:	2.7.1
+Version:	2.8
 Release:	%mkrel 1
 Epoch:		1
 Group:		Sound
@@ -115,7 +115,7 @@ TARGETCPU="powerpc64"
 	LV2="1" \
 	TRANZPORT="1" \
 	NLS="1" \
-	FREEDESKTOP="1" \
+	FREEDESKTOP="0" \
 	AUBIO="1" \
 	FPU_OPTIMIZATION="1" \
 	WIIMOTE="1" \
