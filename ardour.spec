@@ -2,12 +2,13 @@
 
 Summary:   	Professional multitrack audio recording application
 Name:		ardour
-Version:	2.8
+Version:	2.8.2
 Release:	%mkrel 1
 Epoch:		1
 Group:		Sound
 License:	GPLv2+
 URL:		http://ardour.org/
+# since 2.8.2 there is no direct link :(
 Source0:	http://releases.ardour.org/%{name}-%{version}.tar.bz2
 Source1:	wiimote.tar.gz
 Patch0:		%{name}-2.2-SConstruct.patch
