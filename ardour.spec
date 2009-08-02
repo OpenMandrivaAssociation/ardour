@@ -49,6 +49,7 @@ BuildRequires:	aubio-devel
 BuildRequires:	xdg-utils
 BuildRequires:	shared-mime-info
 BuildRequires:	cwiid-devel
+BuildRequires:	libredland-devel
 Requires:	jackit >= 0.100
 Requires(pre):	xdg-utils
 Requires(pre):	shared-mime-info
@@ -100,6 +101,9 @@ TARGETCPU="powerpc"
 TARGETCPU="powerpc64"
 %endif
 
+# ardour want to link against old library
+sed -i -e 's/soundtouch-1.0/soundtouch-1.4/g' SConstruct
+
 %scons \
 	PREFIX=%{_prefix} \
 	DIST_TARGET="${TARGETCPU}" \
@@ -120,7 +124,8 @@ TARGETCPU="powerpc64"
 	AUBIO="1" \
 	FPU_OPTIMIZATION="1" \
 	WIIMOTE="1" \
-	FREESOUND="1"
+	FREESOUND="1" \
+	AUSTATE="1"
 
 %install
 rm -rf %{buildroot}
