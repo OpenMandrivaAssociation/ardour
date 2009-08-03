@@ -15,6 +15,7 @@ Patch0:		%{name}-2.2-SConstruct.patch
 Patch1:		ardour-2.0.5-fix_compile.patch
 Patch3:		ardour-session.cc-no_stomp.patch
 Patch4:		ardour-2.5-gcc43.patch
+Patch6:		ardour-2.8.2-disable-fdo-actions.patch
 BuildRequires:	curl-devel
 BuildRequires:	fftw3-devel
 BuildRequires:	gettext >= 0.11.5
@@ -83,6 +84,7 @@ ARDOUR AUTHORS".
 %patch1 -p1
 %patch3 -p0
 %patch4 -p1
+%patch6 -p0
 
 %build
 #(tpg) disable strange optimisations, like SSE
@@ -129,32 +131,8 @@ sed -i -e 's/soundtouch-1.0/soundtouch-1.4/g' SConstruct
 
 %install
 rm -rf %{buildroot}
-
 mkdir -p %{buildroot}
-
 scons DESTDIR=%{buildroot} install 
-
-mv %{buildroot}/%{_bindir}/ardour2 %{buildroot}/%{_bindir}/ardour
-
-mkdir -p %{buildroot}%{_datadir}/applications
-cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop << EOF
-[Desktop Entry]
-Name=Ardour
-Comment=Professional multitrack audio recording application
-Exec=%{_bindir}/%{name}
-Icon=%{name}
-Terminal=false
-Type=Application
-Categories=GTK;AudioVideo;Audio;AudioVideoEditing;
-EOF
-
-# icons
-mkdir -p %{buildroot}/%{_liconsdir} %{buildroot}/%{_miconsdir}
-mkdir -p %{buildroot}/%{_iconsdir}/hicolor/{16x16,22x22,32x32,48x48}/apps
-cp gtk2_ardour/icons/ardour_icon_16px.png %{buildroot}/%{_iconsdir}/hicolor/16x16/apps/%{name}.png
-cp gtk2_ardour/icons/ardour_icon_22px.png %{buildroot}/%{_iconsdir}/hicolor/22x22/apps/%{name}.png
-cp gtk2_ardour/icons/ardour_icon_32px.png %{buildroot}/%{_iconsdir}/hicolor/32x32/apps/%{name}.png
-cp gtk2_ardour/icons/ardour_icon_48px.png %{buildroot}/%{_iconsdir}/hicolor/48x48/apps/%{name}.png
 
 %find_lang %{name} --all-name
 
@@ -196,15 +174,16 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/%{oname}/SAE-us-nokeypad.bindings
 %config(noreplace) %{_sysconfdir}/%{oname}/ardour2_ui_dark_sae.rc
 %config(noreplace) %{_sysconfdir}/%{oname}/ardour2_ui_light_sae.rc               
-%{_bindir}/%{name}
+%{_bindir}/%{oname}
 %{_libdir}/%{oname}/*.so
 %{_libdir}/%{oname}/ardour-*
 %{_libdir}/%{oname}/surfaces/*.so
 %{_libdir}/%{oname}/engines/*.so
 %{_libdir}/%{oname}/vamp/*.so
-%{_datadir}/applications/mandriva-ardour.desktop
+%{_datadir}/applications/*.desktop
 %{_datadir}/%{oname}/icons/*.png
 %{_datadir}/%{oname}/pixmaps/*.xpm
 %{_datadir}/%{oname}/*.png
 %{_datadir}/%{oname}/templates/*.template
-%{_iconsdir}/hicolor/*/apps/%{name}.png
+%{_iconsdir}/hicolor/*/*/*.png
+%{_datadir}/mime/packages/*.xml
