@@ -51,6 +51,7 @@ BuildRequires:	xdg-utils
 BuildRequires:	shared-mime-info
 BuildRequires:	cwiid-devel
 BuildRequires:	libredland-devel
+BuildRequires:	desktop-file-utils
 Requires:	jackit >= 0.100
 Requires(pre):	xdg-utils
 Requires(pre):	shared-mime-info
@@ -132,7 +133,7 @@ sed -i -e 's/soundtouch-1.0/soundtouch-1.4/g' SConstruct
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
-scons DESTDIR=%{buildroot} install 
+%scons DESTDIR=%{buildroot} install
 
 %find_lang %{name} --all-name
 
@@ -173,7 +174,7 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/%{oname}/SAE-us-keypad.bindings
 %config(noreplace) %{_sysconfdir}/%{oname}/SAE-us-nokeypad.bindings
 %config(noreplace) %{_sysconfdir}/%{oname}/ardour2_ui_dark_sae.rc
-%config(noreplace) %{_sysconfdir}/%{oname}/ardour2_ui_light_sae.rc               
+%config(noreplace) %{_sysconfdir}/%{oname}/ardour2_ui_light_sae.rc
 %{_bindir}/%{oname}
 %{_libdir}/%{oname}/*.so
 %{_libdir}/%{oname}/ardour-*
