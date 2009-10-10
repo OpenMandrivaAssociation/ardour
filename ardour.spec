@@ -133,7 +133,7 @@ sed -i -e 's/soundtouch-1.0/soundtouch-1.4/g' SConstruct
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}
-%scons DESTDIR=%{buildroot} install
+scons DESTDIR=%{buildroot} install
 
 %find_lang %{name} --all-name
 
