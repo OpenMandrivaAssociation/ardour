@@ -11,11 +11,12 @@ URL:		http://ardour.org/
 # since 2.8.2 there is no direct link :(
 Source0:	http://releases.ardour.org/%{name}-%{version}.tar.bz2
 Source1:	wiimote.tar.gz
-Patch0:		%{name}-2.2-SConstruct.patch
+Patch0:		%{name}-2.8.4-SConstruct.patch
 Patch1:		ardour-2.0.5-fix_compile.patch
 Patch3:		ardour-session.cc-no_stomp.patch
-Patch4:		ardour-2.5-gcc43.patch
+Patch4:		ardour-2.8.4-gcc43.patch
 Patch6:		ardour-2.8.2-disable-fdo-actions.patch
+Patch7:		ardour-2.8.4-wiimote-scons.patch
 BuildRequires:	curl-devel
 BuildRequires:	fftw3-devel
 BuildRequires:	gettext >= 0.11.5
@@ -84,8 +85,9 @@ ARDOUR AUTHORS".
 %patch0 -p0
 %patch1 -p1
 %patch3 -p0
-%patch4 -p1
+%patch4 -p0
 %patch6 -p0
+%patch7 -p0
 
 %build
 #(tpg) disable strange optimisations, like SSE
