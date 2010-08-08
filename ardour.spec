@@ -2,7 +2,7 @@
 
 Summary:   	Professional multitrack audio recording application
 Name:		ardour
-Version:	2.8.7
+Version:	2.8.11
 Release:	%mkrel 1
 Epoch:		1
 Group:		Sound
@@ -11,7 +11,6 @@ URL:		http://ardour.org/
 # since 2.8.2 there is no direct link :(
 Source0:	http://releases.ardour.org/%{name}-%{version}.tar.bz2
 Source1:	wiimote.tar.gz
-Patch0:		%{name}-2.8.4-SConstruct.patch
 Patch1:		ardour-2.0.5-fix_compile.patch
 Patch3:		ardour-session.cc-no_stomp.patch
 Patch4:		ardour-2.8.4-gcc43.patch
@@ -82,7 +81,6 @@ ARDOUR AUTHORS".
 %prep
 
 %setup -q -a1
-%patch0 -p0
 %patch1 -p1
 %patch3 -p0
 %patch4 -p0
@@ -98,12 +96,6 @@ ARCHFLAGS="-DARCH_X86"
 %ifarch x86_64
 TARGETCPU="x86_64"
 ARCHFLAGS="-DARCH_X86 -DBUILD_SSE_OPTIMIZATIONS -DUSE_X86_64_ASM"
-%endif
-%ifarch ppc
-TARGETCPU="powerpc"
-%endif
-%ifarch ppc64
-TARGETCPU="powerpc64"
 %endif
 
 # ardour want to link against old library
