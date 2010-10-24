@@ -3,7 +3,7 @@
 Summary:   	Professional multitrack audio recording application
 Name:		ardour
 Version:	2.8.11
-Release:	%mkrel 1
+Release:	%mkrel 2
 Epoch:		1
 Group:		Sound
 License:	GPLv2+
@@ -16,6 +16,7 @@ Patch3:		ardour-session.cc-no_stomp.patch
 Patch4:		ardour-2.8.4-gcc43.patch
 Patch6:		ardour-2.8.2-disable-fdo-actions.patch
 Patch7:		ardour-2.8.4-wiimote-scons.patch
+Patch8:		ardour-safe-env-vars.patch
 BuildRequires:	curl-devel
 BuildRequires:	fftw3-devel
 BuildRequires:	gettext >= 0.11.5
@@ -86,6 +87,7 @@ ARDOUR AUTHORS".
 %patch4 -p0
 %patch6 -p0
 %patch7 -p0
+%patch8 -p1
 
 %build
 #(tpg) disable strange optimisations, like SSE
