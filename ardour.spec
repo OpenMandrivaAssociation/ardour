@@ -18,7 +18,7 @@ Patch6:		ardour-2.8.2-disable-fdo-actions.patch
 Patch7:		ardour-2.8.4-wiimote-scons.patch
 #Patch8:		ardour-safe-env-vars.patch
 # Debian patch fixes build and includes patch8
-Patch9		000_sync_vcs.patch
+Patch9:		000_sync_vcs.patch
 BuildRequires:	curl-devel
 BuildRequires:	fftw3-devel
 BuildRequires:	gettext >= 0.11.5
