@@ -3,7 +3,7 @@
 Summary:   	Professional multitrack audio recording application
 Name:		ardour
 Version:	2.8.11
-Release:	%mkrel 2
+Release:	%mkrel 3
 Epoch:		1
 Group:		Sound
 License:	GPLv2+
@@ -16,7 +16,9 @@ Patch3:		ardour-session.cc-no_stomp.patch
 Patch4:		ardour-2.8.4-gcc43.patch
 Patch6:		ardour-2.8.2-disable-fdo-actions.patch
 Patch7:		ardour-2.8.4-wiimote-scons.patch
-Patch8:		ardour-safe-env-vars.patch
+#Patch8:		ardour-safe-env-vars.patch
+# Debian patch fixes build and includes patch8
+Patch9		000_sync_vcs.patch
 BuildRequires:	curl-devel
 BuildRequires:	fftw3-devel
 BuildRequires:	gettext >= 0.11.5
@@ -27,7 +29,7 @@ BuildRequires: 	libalsa-devel
 BuildRequires:	libart_lgpl-devel >= 2.3.16
 BuildRequires:	libboost-devel
 BuildRequires:	libflac-devel
-BuildRequires:	libglib2.0-devel >= 2.10
+BuildRequires:	glib2-devel >= 2.10
 BuildRequires:	libgnomecanvas2-devel
 BuildRequires:	libgnomecanvasmm2.6-devel
 BuildRequires:	liblo-devel
@@ -51,7 +53,7 @@ BuildRequires:	aubio-devel
 BuildRequires:	xdg-utils
 BuildRequires:	shared-mime-info
 BuildRequires:	cwiid-devel
-BuildRequires:	libredland-devel
+BuildRequires:	redland-devel
 BuildRequires:	desktop-file-utils
 Requires:	jackit >= 0.100
 Requires(pre):	xdg-utils
@@ -87,7 +89,8 @@ ARDOUR AUTHORS".
 %patch4 -p0
 %patch6 -p0
 %patch7 -p0
-%patch8 -p1
+#patch8 -p1
+%patch9 -p1
 
 %build
 #(tpg) disable strange optimisations, like SSE
