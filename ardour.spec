@@ -1,9 +1,9 @@
 %define oname ardour2
 
-Summary:   	Professional multitrack audio recording application
+Summary:	Professional multitrack audio recording application
 Name:		ardour
 Version:	2.8.11
-Release:	%mkrel 3
+Release:	%mkrel 4
 Epoch:		1
 Group:		Sound
 License:	GPLv2+
@@ -25,7 +25,7 @@ BuildRequires:	gettext >= 0.11.5
 BuildRequires:	gtk2-devel >= 2.8
 BuildRequires:	gtkmm2.4-devel >= 2.10.8
 BuildRequires:	jackit-devel >= 0.100
-BuildRequires: 	libalsa-devel
+BuildRequires:	libalsa-devel
 BuildRequires:	libart_lgpl-devel >= 2.3.16
 BuildRequires:	libboost-devel
 BuildRequires:	libflac-devel
@@ -37,7 +37,9 @@ BuildRequires:	liblrdf-devel >= 0.3.1
 BuildRequires:	libsamplerate-devel >= 0.0.13
 BuildRequires:	libsndfile-devel >= 1.0.16
 BuildRequires:	libtool
-BuildRequires: 	libusb-devel
+BuildRequires:	liblrdf-devel
+BuildRequires:	raptor2 >= 2.0.4
+BuildRequires:	libusb-devel
 BuildRequires:	libxml2-devel >= 2.5.0
 BuildRequires:	libxslt-devel
 BuildRequires:	pkgconfig
