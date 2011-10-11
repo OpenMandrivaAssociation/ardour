@@ -12,13 +12,9 @@ URL:		http://ardour.org/
 Source0:	http://releases.ardour.org/%{name}-%{version}.tar.bz2
 Source1:	wiimote.tar.gz
 Patch1:		ardour-2.0.5-fix_compile.patch
-Patch3:		ardour-session.cc-no_stomp.patch
 Patch4:		ardour-2.8.4-gcc43.patch
 Patch6:		ardour-2.8.2-disable-fdo-actions.patch
 Patch7:		ardour-2.8.4-wiimote-scons.patch
-#Patch8:		ardour-safe-env-vars.patch
-# Debian patch fixes build and includes patch8
-Patch9:		000_sync_vcs.patch
 BuildRequires:	curl-devel
 BuildRequires:	fftw3-devel
 BuildRequires:	gettext >= 0.11.5
@@ -87,12 +83,10 @@ ARDOUR AUTHORS".
 
 %setup -q -a1
 %patch1 -p1
-%patch3 -p0
 %patch4 -p0
 %patch6 -p0
 %patch7 -p0
 #patch8 -p1
-%patch9 -p1
 
 %build
 #(tpg) disable strange optimisations, like SSE
