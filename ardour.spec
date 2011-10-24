@@ -3,18 +3,19 @@
 Summary:	Professional multitrack audio recording application
 Name:		ardour
 Version:	2.8.12
-Release:	%mkrel 1
+Release:	%mkrel 2
 Epoch:		1
 Group:		Sound
 License:	GPLv2+
 URL:		http://ardour.org/
 # since 2.8.2 there is no direct link :(
 Source0:	http://releases.ardour.org/%{name}-%{version}.tar.bz2
-Source1:	wiimote.tar.gz
-Patch1:		ardour-2.0.5-fix_compile.patch
-Patch4:		ardour-2.8.4-gcc43.patch
-Patch6:		ardour-2.8.2-disable-fdo-actions.patch
-Patch7:		ardour-2.8.4-wiimote-scons.patch
+#Source1:	wiimote.tar.gz
+Patch1:		ardour-2.8.11-flags.patch
+Patch2:		ardour-2.8.12-syslibs.patch
+Patch3:		ardour-2.8.11-soundtouch.patch
+Patch4:		ardour-2.8.2-disable-fdo-actions.patch
+Patch5:		ardour-SConscript.patch
 BuildRequires:	curl-devel
 BuildRequires:	fftw3-devel
 BuildRequires:	gettext >= 0.11.5
@@ -45,8 +46,9 @@ BuildRequires:	slv2-devel >= 0.6.0
 BuildRequires:	soundtouch-devel >= 1.3.1
 BuildRequires:	sqlite3-devel
 BuildRequires:	lv2core-devel
-#BuildRequires:	vamp-plugin-sdk-devel
+BuildRequires:	vamp-plugin-sdk-devel
 BuildRequires:	rubberband-devel
+BuildRequires:	libsoundtouch-devel
 BuildRequires:	aubio-devel
 BuildRequires:	xdg-utils
 BuildRequires:	shared-mime-info
@@ -81,12 +83,12 @@ ARDOUR AUTHORS".
 
 %prep
 
-%setup -q -a1
+%setup -q
 %patch1 -p1
+%patch2 -p0
+%patch3 -p1
 %patch4 -p0
-%patch6 -p0
-%patch7 -p0
-#patch8 -p1
+%patch5 -p1
 
 %build
 #(tpg) disable strange optimisations, like SSE
@@ -100,7 +102,7 @@ ARCHFLAGS="-DARCH_X86 -DBUILD_SSE_OPTIMIZATIONS -DUSE_X86_64_ASM"
 %endif
 
 # ardour want to link against old library
-sed -i -e 's/soundtouch-1.0/soundtouch-1.4/g' SConstruct
+# sed -i -e 's/soundtouch-1.0/soundtouch-1.4/g' SConstruct
 
 %scons \
 	PREFIX=%{_prefix} \
@@ -152,6 +154,8 @@ rm -rf %{buildroot}
 %doc README PACKAGER_README
 %dir %{_sysconfdir}/%{oname}
 %dir %{_libdir}/%{oname}
+%dir %{_libdir}/%{oname}/vamp
+%dir %{_libdir}/%{oname}/surfaces
 %dir %{_datadir}/%{oname}
 %dir %{_datadir}/%{oname}/icons
 %dir %{_datadir}/%{oname}/pixmaps
@@ -174,7 +178,7 @@ rm -rf %{buildroot}
 %{_libdir}/%{oname}/*.so
 %{_libdir}/%{oname}/ardour-*
 %{_libdir}/%{oname}/surfaces/*.so
-%{_libdir}/%{oname}/engines/*.so
+#% {_libdir}/%{oname}/engines/*.so
 %{_libdir}/%{oname}/vamp/*.so
 %{_datadir}/applications/*.desktop
 %{_datadir}/%{oname}/icons/*.png
