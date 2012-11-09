@@ -1,0 +1,35 @@
+--- gtk2_ardour/SConscript.fdo	2009-03-26 15:56:10.000000000 +0100
++++ gtk2_ardour/SConscript	2009-08-03 07:00:17.000000000 +0200
+@@ -523,14 +523,14 @@
+ 	env.Alias('install', env.InstallAs(os.path.join(desktop_icon_install_prefix, '22x22', 'mimetypes', 'application-x-ardour2.png'), 'icons/application-x-ardour_22px.png'))
+ 	env.Alias('install', env.InstallAs(os.path.join(desktop_icon_install_prefix, '32x32', 'mimetypes', 'application-x-ardour2.png'), 'icons/application-x-ardour_32px.png'))
+ 	env.Alias('install', env.InstallAs(os.path.join(desktop_icon_install_prefix, '48x48', 'mimetypes', 'application-x-ardour2.png'), 'icons/application-x-ardour_48px.png'))
+-	env.Alias('install', env.Command (os.path.join(install_prefix, 'share', 'mime'), [], 'update-mime-database $TARGET'))
++	#env.Alias('install', env.Command (os.path.join(install_prefix, 'share', 'mime'), [], 'update-mime-database $TARGET'))
+ 	# Update the icon cache #
+-	env.Alias('install', env.Command (desktop_icon_install_prefix, [], 'touch --no-create $TARGET'))
+-	env.Alias('install', env.Command (desktop_icon_install_prefix, [], 'gtk-update-icon-cache $TARGET'))
++	#env.Alias('install', env.Command (desktop_icon_install_prefix, [], 'touch --no-create $TARGET'))
++	#env.Alias('install', env.Command (desktop_icon_install_prefix, [], 'gtk-update-icon-cache $TARGET'))
+ 	# Make the ardour2.desktop file and install it #
+ 	env.Alias('install', env.Command ('ardour2.desktop', 'ardour2.desktop.in', 'cat $SOURCES  > $TARGET'))
+ 	env.Alias('install', env.Install(os.path.join(install_prefix, 'share', 'applications'), 'ardour2.desktop'))
+-	env.Alias('install', env.Command (os.path.join(install_prefix, 'share', 'applications'), [], 'update-desktop-database $TARGET'))
++	#env.Alias('install', env.Command (os.path.join(install_prefix, 'share', 'applications'), [], 'update-desktop-database $TARGET'))
+ 	# uninstall target.. needed to run  update-mime-database and update-desktop-database after removal. #`
+ 	remove_desktop_files = env.Command ('another_frobnicatory_decoy', [],
+                              [ Delete (install_prefix + '/share/mime/packages/ardour2.xml'),
+@@ -543,9 +543,10 @@
+ 			       Delete (desktop_icon_install_prefix + '/22x22/mimetypes/application-x-ardour2.png'),
+ 			       Delete (desktop_icon_install_prefix + '/32x32/mimetypes/application-x-ardour2.png'),
+ 			       Delete (desktop_icon_install_prefix + '/48x48/mimetypes/application-x-ardour2.png'),
+-                               Action ('update-mime-database ' + install_prefix + '/share/mime'),
+-                               Action ('gtk-update-icon-cache ' + desktop_icon_install_prefix),
+-                               Action ('update-desktop-database ' + install_prefix + '/share/applications')])
++                               #Action ('update-mime-database ' + install_prefix + '/share/mime'),
++                               #Action ('gtk-update-icon-cache ' + desktop_icon_install_prefix),
++                               #Action ('update-desktop-database ' + install_prefix + '/share/applications')])
++                               ])
+ 	env.Alias('uninstall', remove_desktop_files)
+ 
+ #dist
