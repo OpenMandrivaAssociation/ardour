@@ -1,0 +1,11 @@
+--- orig.SConstruct	2012-11-20 23:14:08.560587681 +0100
++++ SConstruct	2012-11-20 23:13:33.082630385 +0100
+@@ -1275,7 +1275,7 @@
+ #
+ 
+ env.Merge ([ libraries['core'] ])
+-
++env.Append(LIBS="-lboost_system")
+ 
+ #
+ # i18n support

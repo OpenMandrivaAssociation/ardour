@@ -2,8 +2,8 @@
 
 Summary:	Professional multitrack audio recording application
 Name:		ardour
-Version:	2.8.12
-Release:	%mkrel 2
+Version:	2.8.16
+Release:	1
 Epoch:		1
 Group:		Sound
 License:	GPLv2+
@@ -16,49 +16,48 @@ Patch2:		ardour-2.8.12-syslibs.patch
 Patch3:		ardour-2.8.11-soundtouch.patch
 Patch4:		ardour-2.8.2-disable-fdo-actions.patch
 Patch5:		ardour-SConscript.patch
-BuildRequires:	curl-devel
-BuildRequires:	fftw3-devel
-BuildRequires:	gettext >= 0.11.5
-BuildRequires:	gtk2-devel >= 2.8
-BuildRequires:	gtkmm2.4-devel >= 2.10.8
-BuildRequires:	jackit-devel >= 0.100
-BuildRequires:	libalsa-devel
-BuildRequires:	libart_lgpl-devel >= 2.3.16
-BuildRequires:	libboost-devel
-BuildRequires:	libflac-devel
-BuildRequires:	glib2-devel >= 2.10
-BuildRequires:	libgnomecanvas2-devel
-BuildRequires:	libgnomecanvasmm2.6-devel
-BuildRequires:	liblo-devel
-BuildRequires:	liblrdf-devel >= 0.3.1
-BuildRequires:	libsamplerate-devel >= 0.0.13
-BuildRequires:	libsndfile-devel >= 1.0.16
-BuildRequires:	libtool
-BuildRequires:	liblrdf-devel
-BuildRequires:	raptor2 >= 2.0.4
-BuildRequires:	libusb-devel
-BuildRequires:	libxml2-devel >= 2.5.0
-BuildRequires:	libxslt-devel
-BuildRequires:	pkgconfig
-BuildRequires:	raptor-devel
+Patch6:		ardour-2.8.12-unistd.patch
+Patch7:		ardour-2.8.12-SConstruct2.patch
 BuildRequires:	scons >= 0.96
-BuildRequires:	slv2-devel >= 0.6.0
-BuildRequires:	soundtouch-devel >= 1.3.1
-BuildRequires:	sqlite3-devel
-BuildRequires:	lv2core-devel
-BuildRequires:	vamp-plugin-sdk-devel
-BuildRequires:	rubberband-devel
-BuildRequires:	libsoundtouch-devel
-BuildRequires:	aubio-devel
+BuildRequires:	gettext >= 0.11.5
+BuildRequires:	libtool
+BuildRequires:	raptor2 >= 2.0.4
+BuildRequires:	boost-devel
+BuildRequires:	cwiid-devel
+BuildRequires:	pkgconfig(libcurl)
+BuildRequires:	pkgconfig(fftw3)
+BuildRequires:	pkgconfig(gtk+-2.0)
+BuildRequires:	pkgconfig(gtkmm-2.4)
+BuildRequires:	pkgconfig(jack)
+BuildRequires:	pkgconfig(alsa)
+BuildRequires:	pkgconfig(libart-2.0)
+BuildRequires:	pkgconfig(flac)
+BuildRequires:	pkgconfig(glib-2.0)
+BuildRequires:	pkgconfig(libgnomecanvas-2.0)
+BuildRequires:	pkgconfig(libgnomecanvasmm-2.6)
+BuildRequires:	pkgconfig(liblo)
+BuildRequires:	pkgconfig(lrdf)
+BuildRequires:	pkgconfig(samplerate)
+BuildRequires:	pkgconfig(sndfile)
+BuildRequires:	pkgconfig(libusb)
+BuildRequires:	pkgconfig(libxml-2.0)
+BuildRequires:	pkgconfig(libxslt)
+BuildRequires:	pkgconfig(raptor)
+BuildRequires:	pkgconfig(slv2)
+BuildRequires:	pkgconfig(soundtouch)
+BuildRequires:	pkgconfig(sqlite3)
+BuildRequires:	pkgconfig(lv2core)
+BuildRequires:	pkgconfig(vamp-sdk)
+BuildRequires:	pkgconfig(rubberband)
+BuildRequires:	pkgconfig(aubio)
+BuildRequires:	pkgconfig(redland)
+BuildRequires:	desktop-file-utils
+BuildRequires:	suil-devel
+BuildRequires:	lilv-devel
+#BuildRequires:	gtk+2.0
 BuildRequires:	xdg-utils
 BuildRequires:	shared-mime-info
-BuildRequires:	cwiid-devel
-BuildRequires:	redland-devel
-BuildRequires:	desktop-file-utils
 Requires:	jackit >= 0.100
-Requires(pre):	xdg-utils
-Requires(pre):	shared-mime-info
-BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
 Ardour is a digital audio workstation.You can use it to record, edit and mix
@@ -82,13 +81,13 @@ support from upstream authors "USE AT YOUR OWN RISK: CANCELS ALL SUPPORT FROM
 ARDOUR AUTHORS".
 
 %prep
-
 %setup -q
 %patch1 -p1
-%patch2 -p0
-%patch3 -p1
+#% patch2 -p0
+#% atch3 -p1
 %patch4 -p0
 %patch5 -p1
+%patch7 -p0
 
 %build
 #(tpg) disable strange optimisations, like SSE
@@ -107,14 +106,12 @@ ARCHFLAGS="-DARCH_X86 -DBUILD_SSE_OPTIMIZATIONS -DUSE_X86_64_ASM"
 %scons \
 	PREFIX=%{_prefix} \
 	DIST_TARGET="${TARGETCPU}" \
+	LINKFLAGS="%{ldflags} --Wl, --as-needed" \
+	CCFLAGS="%{optflags} -ffast-math" \
 	ARCH="%{optflags} -ffast-math ${ARCHFLAGS}" \
 	FFT_ANALYSIS="1" \
 	LIBDIR="%{_libdir}" \
-	%if %mdkversion > 200900
 	SYSLIBS="1" \
-	%else
-	SYSLIBS="0" \
-	%endif
 	SURFACES="1" \
 	LIBLO="1" \
 	LV2="1" \
@@ -128,29 +125,12 @@ ARCHFLAGS="-DARCH_X86 -DBUILD_SSE_OPTIMIZATIONS -DUSE_X86_64_ASM"
 	AUSTATE="1"
 
 %install
-rm -rf %{buildroot}
 mkdir -p %{buildroot}
 scons DESTDIR=%{buildroot} install
 
 %find_lang %{name} --all-name
 
-%if %mdkversion < 200900
-%post
-%update_menus
-%update_icon_cache hicolor
-%endif
-
-%if %mdkversion < 200900
-%postun
-%clean_menus
-%clean_icon_cache hicolor
-%endif
-
-%clean
-rm -rf %{buildroot}
-
 %files -f %{name}.lang
-%defattr(-,root,root)
 %doc README PACKAGER_README
 %dir %{_sysconfdir}/%{oname}
 %dir %{_libdir}/%{oname}
@@ -178,8 +158,8 @@ rm -rf %{buildroot}
 %{_libdir}/%{oname}/*.so
 %{_libdir}/%{oname}/ardour-*
 %{_libdir}/%{oname}/surfaces/*.so
-#% {_libdir}/%{oname}/engines/*.so
 %{_libdir}/%{oname}/vamp/*.so
+%{_libdir}/%{oname}/engines/libclearlooks.so
 %{_datadir}/applications/*.desktop
 %{_datadir}/%{oname}/icons/*.png
 %{_datadir}/%{oname}/pixmaps/*.xpm
@@ -187,3 +167,5 @@ rm -rf %{buildroot}
 %{_datadir}/%{oname}/templates/*.template
 %{_iconsdir}/hicolor/*/*/*.png
 %{_datadir}/mime/packages/*.xml
+
+
