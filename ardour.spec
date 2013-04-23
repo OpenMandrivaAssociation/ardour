@@ -1,3 +1,6 @@
+%define _enable_debug_packages %{nil}
+%define debug_package %{nil}
+
 %define oname ardour2
 
 Summary:	Professional multitrack audio recording application
