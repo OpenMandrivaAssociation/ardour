@@ -10,16 +10,15 @@ License:	GPLv2+
 URL:		http://ardour.org/
 # since 2.8.2 there is no direct link :(
 Source0:	http://releases.ardour.org/%{name}-%{version}.tar.bz2
-#Source1:	wiimote.tar.gz
 Patch1:		ardour-2.8.11-flags.patch
-Patch2:		ardour-2.8.12-syslibs.patch
-Patch3:		ardour-2.8.11-soundtouch.patch
+Patch2:		ardour-2.8.16-lilv16.patch
 Patch4:		ardour-2.8.2-disable-fdo-actions.patch
 Patch5:		ardour-SConscript.patch
 Patch6:		ardour-2.8.12-unistd.patch
 Patch7:		ardour-2.8.12-SConstruct2.patch
 BuildRequires:	scons >= 0.96
 BuildRequires:	gettext >= 0.11.5
+BuildRequires:	gtk+2.0
 BuildRequires:	libtool
 BuildRequires:	raptor2 >= 2.0.4
 BuildRequires:	boost-devel
@@ -83,8 +82,7 @@ ARDOUR AUTHORS".
 %prep
 %setup -q
 %patch1 -p1
-#% patch2 -p0
-#% atch3 -p1
+%patch2 -p1
 %patch4 -p0
 %patch5 -p1
 %patch7 -p0
