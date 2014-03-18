@@ -6,7 +6,7 @@
 Summary:	Professional multitrack audio recording application
 Name:		ardour
 Version:	2.8.16
-Release:	1
+Release:	2
 Epoch:		1
 Group:		Sound
 License:	GPLv2+
