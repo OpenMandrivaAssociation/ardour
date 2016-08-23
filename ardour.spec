@@ -1,172 +1,328 @@
-%define _enable_debug_packages %{nil}
-%define debug_package %{nil}
+%define libardour	%mklibname ardour 3
+%define libardouralsa	%mklibname ardouralsautil 0
+%define libaudiographer	%mklibname audiographer 0
+%define libcanvas	%mklibname canvas 0
+%define libevoral	%mklibname evoral 0
+%define libgtkmm2ext	%mklibname gtkmm2ext 0
+%define libmidipp	%mklibname midipp 4
+%define libpbd		%mklibname pbd 4
+%define libptformat	%mklibname ptformat 0
+%define libqmdsp	%mklibname qmdsp 0
+%define libardourvampplugins	%mklibname ardourvampplugins 0
 
-%define oname ardour2
+%define devname	%mklibname -d ardour
 
-Summary:	Professional multitrack audio recording application
+
+%define oname	Ardour
+%define maj	%{expand:%(echo "%{version}" | cut -d. -f1)}
 Name:		ardour
-Version:	2.8.16
-Release:	3
+Version:	5.0.0
+Release:	1
 Epoch:		1
+Summary:	Professional multi-track audio recording application
 Group:		Sound
 License:	GPLv2+
 URL:		http://ardour.org/
-# since 2.8.2 there is no direct link :(
-Source0:	http://releases.ardour.org/%{name}-%{version}.tar.bz2
-Patch1:		ardour-2.8.11-flags.patch
-Patch2:		ardour-2.8.16-lilv16.patch
-Patch4:		ardour-2.8.2-disable-fdo-actions.patch
-Patch5:		ardour-SConscript.patch
-Patch6:		ardour-2.8.12-unistd.patch
-Patch7:		ardour-2.8.12-SConstruct2.patch
-BuildRequires:	scons >= 0.96
-BuildRequires:	gettext >= 0.11.5
-BuildRequires:	gtk+2.0
-BuildRequires:	libtool
-BuildRequires:	raptor2 >= 2.0.4
+
+# NB to receive a free (as beer) source tarball you need to give your e-mail address here:
+# "http://community.ardour.org/download_process_selection_and_amount" to get a download link
+Source0:	srctar
+
 BuildRequires:	boost-devel
-BuildRequires:	cwiid-devel
-BuildRequires:	pkgconfig(libcurl)
-BuildRequires:	pkgconfig(fftw3)
-BuildRequires:	pkgconfig(gtk+-2.0)
-BuildRequires:	pkgconfig(gtkmm-2.4)
-BuildRequires:	pkgconfig(jack)
-BuildRequires:	pkgconfig(alsa)
-BuildRequires:	pkgconfig(libart-2.0)
-BuildRequires:	pkgconfig(flac)
-BuildRequires:	pkgconfig(glib-2.0)
-BuildRequires:	pkgconfig(libgnomecanvas-2.0)
-BuildRequires:	pkgconfig(libgnomecanvasmm-2.6)
-BuildRequires:	pkgconfig(liblo)
-BuildRequires:	pkgconfig(lrdf)
-BuildRequires:	pkgconfig(samplerate)
-BuildRequires:	pkgconfig(sndfile)
-BuildRequires:	pkgconfig(libusb)
-BuildRequires:	pkgconfig(libxml-2.0)
-BuildRequires:	pkgconfig(libxslt)
-BuildRequires:	pkgconfig(raptor)
-BuildRequires:	pkgconfig(slv2)
-BuildRequires:	pkgconfig(soundtouch)
-BuildRequires:	pkgconfig(sqlite3)
-BuildRequires:	pkgconfig(lv2core)
-BuildRequires:	pkgconfig(vamp-sdk)
-BuildRequires:	pkgconfig(rubberband)
-BuildRequires:	pkgconfig(aubio)
-BuildRequires:	pkgconfig(redland)
-BuildRequires:	desktop-file-utils
-BuildRequires:	suil-devel
-BuildRequires:	lilv-devel
-#BuildRequires:	gtk+2.0
-BuildRequires:	xdg-utils
+BuildRequires:	doxygen
+BuildRequires:	gettext
+BuildRequires:	graphviz
+BuildRequires:	gtkmm2.4-devel >= 2.8
+BuildRequires:	jackit-devel
 BuildRequires:	shared-mime-info
-Requires:	jackit >= 0.100
+BuildRequires:	xdg-utils
+BuildRequires:	pkgconfig(alsa)
+BuildRequires:	pkgconfig(aubio) >= 0.3.2
+BuildRequires:	pkgconfig(cppunit) >= 1.12.0
+BuildRequires:	pkgconfig(cwiid)
+BuildRequires:	pkgconfig(fftw3)
+BuildRequires:	pkgconfig(flac) >= 1.2.1
+BuildRequires:	pkgconfig(glib-2.0) >= 2.2
+BuildRequires:	pkgconfig(libart-2.0)
+BuildRequires:	pkgconfig(libcurl) >= 7.0.0
+BuildRequires:	pkgconfig(libgnomecanvas-2.0) >= 2.30
+BuildRequires:	pkgconfig(libgnomecanvasmm-2.6) >= 2.16
+BuildRequires:	pkgconfig(liblo) >= 0.24
+BuildRequires:	pkgconfig(libusb)
+BuildRequires:	pkgconfig(libusb-1.0)
+BuildRequires:	pkgconfig(libxslt)
+BuildRequires:	pkgconfig(lilv-0) >= 0.14
+BuildRequires:	pkgconfig(lrdf) >= 0.4.0
+BuildRequires:	pkgconfig(ltc) >= 1.1.0
+BuildRequires:	pkgconfig(lv2)
+BuildRequires:	pkgconfig(ogg) >= 1.1.2
+BuildRequires:	pkgconfig(raptor2)
+BuildRequires:	pkgconfig(redland)
+BuildRequires:	pkgconfig(rubberband)
+BuildRequires:	pkgconfig(samplerate)
+BuildRequires:	pkgconfig(serd-0) >= 0.14.0
+BuildRequires:	pkgconfig(sndfile) >= 1.0.18
+BuildRequires:	pkgconfig(sord-0) >= 0.8.0
+BuildRequires:	pkgconfig(sndfile)
+BuildRequires:	pkgconfig(sqlite3)
+BuildRequires:	pkgconfig(sratom-0) >= 0.4.0
+BuildRequires:	pkgconfig(suil-0) >= 0.6.0
+BuildRequires:	pkgconfig(taglib)
+BuildRequires:	pkgconfig(uuid)
+BuildRequires:	pkgconfig(vamp-sdk)
+BuildRequires:	desktop-file-utils
+
+Requires:	jackit
+Requires:	gtk-engines2
+
+Obsoletes:	%{name}3 < 4.0
+Conflicts:	%{name}3 < 4.0
+Provides:	%{name}3 = %{version}-%{release}
 
 %description
-Ardour is a digital audio workstation.You can use it to record, edit and mix
-multi-track audio. You can produce your own CDs, mix video soundtracks, or just
-experiment with new ideas about music and sound.
+Ardour is a digital audio workstation. You can use it to record, edit and mix
+multi-track audio. You can produce your own CDs, mix video sound tracks, or
+just experiment with new ideas about music and sound.
 
-Ardour capabilities include: multichannel recording, non-destructive editing
+Ardour capabilities include: multi channel recording, non-destructive editing
 with unlimited undo/redo, full automation support, a powerful mixer, unlimited
-tracks/busses/plugins, timecode synchronization, and hardware control from
-surfaces like the Mackie Control Universal. If you've been looking for a tool
-similar to ProTools, Nuendo, Pyramix, or Sequoia, you might have found it.
+tracks/buses/plugins, time-code synchronization, and hardware control from
+surfaces like the Mackie Control Universal.
 
-You must have jackd running and an ALSA sound driver to use ardour. If you are
-new to jackd, try qjackctl.
+%package -n	%{libardour}
+Summary:	Ardour5 lib
+Group:		System/Libraries
 
-See the online user manual at http://ardour.org/files/manual/index.html
+%description -n	%{libardour}
+%{summary}
 
-Important notice: This package is built against the system libraries in
-Mandriva, and in the SConstruct file there is a text that seems to invalidate
-support from upstream authors "USE AT YOUR OWN RISK: CANCELS ALL SUPPORT FROM
-ARDOUR AUTHORS".
+%package -n	%{libardouralsa}
+Summary:	Ardour5 lib
+Group:		System/Libraries
+
+%description -n	%{libardouralsa}
+%{summary}
+
+%package -n	%{libaudiographer}
+Summary:	Ardour5 lib
+Group:		System/Libraries
+
+%description -n	%{libaudiographer}
+%{summary}
+
+%package -n	%{libcanvas}
+Summary:	Ardour5 lib
+Group:		System/Libraries
+
+%description -n	%{libcanvas}
+
+%package -n	%{libardourvampplugins}
+Summary:	Ardour5 lib
+Group:		System/Libraries
+
+%description -n	%{libardourvampplugins}
+
+%package -n	%{libevoral}
+Summary:	Ardour5 lib
+Group:		System/Libraries
+
+%description -n	%{libevoral}
+%{summary}
+
+%package -n	%{libgtkmm2ext}
+Summary:	Ardour5 lib
+Group:		System/Libraries
+
+%description -n	%{libgtkmm2ext}
+%{summary}
+
+%package -n	%{libmidipp}
+Summary:	Ardour5 lib
+Group:		System/Libraries
+
+%description -n	%{libmidipp}
+%{summary}
+
+
+%package -n	%{libpbd}
+Summary:	Ardour5 lib
+Group:		System/Libraries
+
+%description -n	%{libpbd}
+%{summary}
+
+%package -n	%{libptformat}
+Summary:	Ardour5 lib
+Group:		System/Libraries
+
+%description -n	%{libptformat}
+%{summary}
+
+%package -n	%{libqmdsp}
+Summary:	Ardour5 lib
+Group:		System/Libraries
+
+%description -n	%{libqmdsp}
+%{summary}
+
+%package -n	%{devname}
+Summary:	Development files for %{name}
+Group:		Development/C
+Requires:	%{libqmdsp} = %{version}-%{release}
+Requires:	%{libptformat} = %{version}-%{release}
+Requires:	%{libpbd} = %{version}-%{release}
+Provides:	%{name}-devel = %{version}-%{release}
+Provides:	%{name}%{maj}-devel = %{version}-%{release}
+
+%description -n	%{devname}
+This package includes the development files for %{name}.
 
 %prep
-%setup -q
-%patch1 -p1
-%patch2 -p1
-%patch4 -p0
-%patch5 -p1
-%patch7 -p0
+%setup -q -n %{oname}-%{version}
+
+sed -i 's!os << obj;!!g' libs/pbd/pbd/compose.h
 
 %build
-#(tpg) disable strange optimisations, like SSE
-%ifarch %{ix86}
-TARGETCPU="i686"
-ARCHFLAGS="-DARCH_X86"
-%endif
-%ifarch x86_64
-TARGETCPU="x86_64"
-ARCHFLAGS="-DARCH_X86 -DBUILD_SSE_OPTIMIZATIONS -DUSE_X86_64_ASM"
-%endif
+%{__python2} ./waf configure \
+    --prefix=%{_prefix} \
+    --libdir=%{_libdir} \
+    --configdir=%{_sysconfdir} \
+    --program-name=Ardour \
+    --nls \
+    --docs \
+    --cxx11
 
-# ardour want to link against old library
-# sed -i -e 's/soundtouch-1.0/soundtouch-1.4/g' SConstruct
+%{__python2} ./waf build \
+    --nls \
+    --docs
 
-%scons \
-	PREFIX=%{_prefix} \
-	DIST_TARGET="${TARGETCPU}" \
-	LINKFLAGS="%{ldflags} --Wl, --as-needed" \
-	CCFLAGS="%{optflags} -ffast-math" \
-	ARCH="%{optflags} -ffast-math ${ARCHFLAGS}" \
-	FFT_ANALYSIS="1" \
-	LIBDIR="%{_libdir}" \
-	SYSLIBS="1" \
-	SURFACES="1" \
-	LIBLO="1" \
-	LV2="1" \
-	TRANZPORT="1" \
-	NLS="1" \
-	FREEDESKTOP="1" \
-	AUBIO="1" \
-	FPU_OPTIMIZATION="1" \
-	WIIMOTE="1" \
-	FREESOUND="1" \
-	AUSTATE="1"
+%{__python2} ./waf i18n_mo
 
 %install
-mkdir -p %{buildroot}
-scons DESTDIR=%{buildroot} install
+%{__python2} ./waf install --destdir=%{buildroot}
 
-%find_lang %{name} --all-name
+# Symlink icons and mimetypes into the right folders
+install -d -m 0755 %{buildroot}%{_iconsdir}
 
-%files -f %{name}.lang
-%doc README PACKAGER_README
-%dir %{_sysconfdir}/%{oname}
-%dir %{_libdir}/%{oname}
-%dir %{_libdir}/%{oname}/vamp
-%dir %{_libdir}/%{oname}/surfaces
-%dir %{_datadir}/%{oname}
-%dir %{_datadir}/%{oname}/icons
-%dir %{_datadir}/%{oname}/pixmaps
-%dir %{_datadir}/%{oname}/templates
-%config(noreplace) %{_sysconfdir}/%{oname}/ardour2_ui_dark.rc
-%config(noreplace) %{_sysconfdir}/%{oname}/ardour2_ui_default.conf
-%config(noreplace) %{_sysconfdir}/%{oname}/ardour2_ui_light.rc
-%config(noreplace) %{_sysconfdir}/%{oname}/ardour.menus
-%config(noreplace) %{_sysconfdir}/%{oname}/ardour_system.rc
-%config(noreplace) %{_sysconfdir}/%{oname}/ergonomic-us.bindings
-%config(noreplace) %{_sysconfdir}/%{oname}/mnemonic-us.bindings
-%config(noreplace) %{_sysconfdir}/%{oname}/ardour-sae.menus
-%config(noreplace) %{_sysconfdir}/%{oname}/SAE-de-keypad.bindings
-%config(noreplace) %{_sysconfdir}/%{oname}/SAE-de-nokeypad.bindings
-%config(noreplace) %{_sysconfdir}/%{oname}/SAE-us-keypad.bindings
-%config(noreplace) %{_sysconfdir}/%{oname}/SAE-us-nokeypad.bindings
-%config(noreplace) %{_sysconfdir}/%{oname}/ardour2_ui_dark_sae.rc
-%config(noreplace) %{_sysconfdir}/%{oname}/ardour2_ui_light_sae.rc
-%{_bindir}/%{oname}
-%{_libdir}/%{oname}/*.so
-%{_libdir}/%{oname}/ardour-*
-%{_libdir}/%{oname}/surfaces/*.so
-%{_libdir}/%{oname}/vamp/*.so
-%{_libdir}/%{oname}/engines/libclearlooks.so
-%{_datadir}/applications/*.desktop
-%{_datadir}/%{oname}/icons/*.png
-%{_datadir}/%{oname}/pixmaps/*.xpm
-%{_datadir}/%{oname}/*.png
-%{_datadir}/%{oname}/templates/*.template
-%{_iconsdir}/hicolor/*/*/*.png
-%{_datadir}/mime/packages/*.xml
+for i in 16 22 32 48; do
+install -d -m 0755 %{buildroot}%{_iconsdir}/hicolor/${i}x${i}/apps
+install -d -m 0755 %{buildroot}%{_iconsdir}/hicolor/${i}x${i}/mimetypes
+ln -s %{_datadir}/%{name}%{maj}/icons/application-x-%{name}_${i}px.png \
+%{buildroot}%{_iconsdir}/hicolor/${i}x${i}/mimetypes/application-x-%{name}%{maj}.png
+ln -s %{_datadir}/%{name}%{maj}/icons/%{name}_icon_${i}px.png \
+%{buildroot}%{_iconsdir}/hicolor/${i}x${i}/apps/%{name}%{maj}.png
+done
 
+
+cat>%{name}.desktop<<EOF
+[Desktop Entry]
+Comment=Digital Audio Workstation
+Comment[en_GB]=Digital Audio Workstation
+Exec=ardour%{maj}
+GenericName=%{oname}
+GenericName[en_GB]=%{oname}
+Icon=%{name}%{maj}
+MimeType=application/x-%{name};
+Name=%{oname}
+Name[en_GB]=%{oname}
+StartupNotify=true
+Terminal=false
+Type=Application
+Categories=AudioVideo;Audio;X-Recorders;X-Multitrack;X-Jack;X-OpenMandriva-CrossDesktop;
+
+EOF
+
+desktop-file-install \
+--dir=%{buildroot}%{_datadir}/applications %{name}.desktop
+
+cat > README.urpmi <<EOF
+You will need to add yourself to the 'audio' and 'realtime' groups before using Ardour.
+This may be done in a terminal by using the following commands:
+
+su
+
+gpasswd -a <yourusername> audio
+
+gpasswd -a <yourusername> realtime
+
+exit
+
+You can alternatively do this by using the OpenMandriva Control Center GUI:
+System -> Manage Users on System -> Right click on your user, twice -> Edit -> Groups tab -> 
+Check boxes for audio and realtime groups -> Click on OK
+
+You will need to log out and log back in before using Ardour for the first time.
+
+EOF
+
+cp -a README.urpmi README.omv
+
+%find_lang %{name}%{maj}
+
+%files -f %{name}%{maj}.lang
+%doc README README.urpmi README.omv
+%{_sysconfdir}/%{name}5/%{name}.keys
+%{_bindir}/%{name}%{maj}
+%{_datadir}/%{name}%{maj}/export/
+%{_datadir}/%{name}%{maj}/icons/
+%{_datadir}/%{name}%{maj}/mcp/
+%{_datadir}/%{name}%{maj}/midi_maps/
+%{_datadir}/%{name}%{maj}/patchfiles/
+%{_datadir}/%{name}%{maj}/resources/
+%{_datadir}/%{name}%{maj}/scripts/
+%{_datadir}/%{name}%{maj}/themes/
+%{_datadir}/%{name}%{maj}/ArdourMono.ttf
+%{_datadir}/applications/%{name}.desktop
+%{_libdir}/%{name}%{maj}/LV2/
+%{_libdir}/%{name}%{maj}/panners/*.so
+%{_libdir}/%{name}%{maj}/surfaces/*.so
+%{_libdir}/%{name}%{maj}/engines/*.so
+%{_libdir}/%{name}%{maj}/backends/*.so
+%{_libdir}/%{name}%{maj}/sanityCheck
+%{_libdir}/%{name}%{maj}/ardour*
+%{_libdir}/%{name}%{maj}/h*ardour*
+%dir %{_sysconfdir}/%{name}%{maj}
+%{_iconsdir}/hicolor/*
+%config(noreplace) %{_sysconfdir}/%{name}%{maj}/%{name}.menus
+%config(noreplace) %{_sysconfdir}/%{name}%{maj}/clearlooks.rc
+%config(noreplace) %{_sysconfdir}/%{name}%{maj}/default_ui_config
+%config(noreplace) %{_sysconfdir}/%{name}%{maj}/system_config
+%config(noreplace) %{_sysconfdir}/%{name}%{maj}/trx.menus
+
+%files -n	%{libardour}
+%{_libdir}/%{name}%{maj}/libardour.so.3*
+
+%files -n	%{libaudiographer}
+%{_libdir}/%{name}%{maj}/libaudiographer.so.0*
+
+%files -n	%{libcanvas}
+%{_libdir}/%{name}%{maj}/libcanvas.so.0*
+
+%files -n	%{libevoral}
+%{_libdir}/%{name}%{maj}/libevoral.so.0*
+
+%files -n	%{libgtkmm2ext}
+%{_libdir}/%{name}%{maj}/libgtkmm2ext.so.0*
+
+%files -n	%{libmidipp}
+%{_libdir}/%{name}%{maj}/libmidipp.so.*
+
+%files -n	%{libpbd}
+%{_libdir}/%{name}%{maj}/libpbd.so.*
+
+%files -n	%{libptformat}
+%{_libdir}/%{name}%{maj}/libptformat.so.*
+
+%files -n	%{libqmdsp}
+%{_libdir}/%{name}%{maj}/libqmdsp.so.*
+
+%files -n	%{libardouralsa}
+%{_libdir}/%{name}%{maj}/libardouralsautil.so.0*
+
+%files -n %{libardourvampplugins}
+%{_libdir}/%{name}%{maj}/vamp/libardourvampplugins.so.*
+
+%files -n %{devname}
+%{_libdir}/%{name}%{maj}/*.so
+%{_libdir}/%{name}%{maj}/vamp/*.so
 
