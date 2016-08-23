@@ -115,12 +115,14 @@ Summary:	Ardour5 lib
 Group:		System/Libraries
 
 %description -n	%{libcanvas}
+%{summary}
 
 %package -n	%{libardourvampplugins}
 Summary:	Ardour5 lib
 Group:		System/Libraries
 
 %description -n	%{libardourvampplugins}
+%{summary}
 
 %package -n	%{libevoral}
 Summary:	Ardour5 lib
@@ -257,9 +259,7 @@ EOF
 
 cp -a README.urpmi README.omv
 
-%find_lang %{name}%{maj}
-
-%files -f %{name}%{maj}.lang
+%files
 %doc README README.urpmi README.omv
 %{_sysconfdir}/%{name}5/%{name}.keys
 %{_bindir}/%{name}%{maj}
@@ -271,6 +271,7 @@ cp -a README.urpmi README.omv
 %{_datadir}/%{name}%{maj}/resources/
 %{_datadir}/%{name}%{maj}/scripts/
 %{_datadir}/%{name}%{maj}/themes/
+%{_datadir}/%{name}%{maj}/locale
 %{_datadir}/%{name}%{maj}/ArdourMono.ttf
 %{_datadir}/applications/%{name}.desktop
 %{_libdir}/%{name}%{maj}/LV2/
