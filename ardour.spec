@@ -168,6 +168,7 @@ cp -a README.urpmi README.omv
 %{_datadir}/%{name}%{maj}/icons/
 %{_datadir}/%{name}%{maj}/mcp/
 %{_datadir}/%{name}%{maj}/midi_maps/
+%{_datadir}/%{name}%{maj}/osc
 %{_datadir}/%{name}%{maj}/patchfiles/
 %{_datadir}/%{name}%{maj}/resources/
 %{_datadir}/%{name}%{maj}/scripts/
