@@ -23,29 +23,34 @@ BuildRequires:	shared-mime-info
 BuildRequires:	xdg-utils
 BuildRequires:	pkgconfig(alsa)
 BuildRequires:	pkgconfig(aubio) >= 0.3.2
+BuildRequires:	pkgconfig(cairomm-1.0)
 BuildRequires:	pkgconfig(cppunit) >= 1.12.0
 BuildRequires:	pkgconfig(cwiid)
 BuildRequires:	pkgconfig(fftw3)
 BuildRequires:	pkgconfig(flac) >= 1.2.1
 BuildRequires:	pkgconfig(glib-2.0) >= 2.2
 BuildRequires:	pkgconfig(libart-2.0)
+BuildRequires:	pkgconfig(libarchive)
 BuildRequires:	pkgconfig(libcurl) >= 7.0.0
 BuildRequires:	pkgconfig(libgnomecanvas-2.0) >= 2.30
 BuildRequires:	pkgconfig(libgnomecanvasmm-2.6) >= 2.16
 BuildRequires:	pkgconfig(liblo) >= 0.24
 BuildRequires:	pkgconfig(libusb)
 BuildRequires:	pkgconfig(libusb-1.0)
+BuildRequires:	pkgconfig(libxml-2.0)
 BuildRequires:	pkgconfig(libxslt)
 BuildRequires:	pkgconfig(lilv-0) >= 0.14
 BuildRequires:	pkgconfig(lrdf) >= 0.4.0
 BuildRequires:	pkgconfig(ltc) >= 1.1.0
 BuildRequires:	pkgconfig(lv2)
 BuildRequires:	pkgconfig(ogg) >= 1.1.2
+BuildRequires:	pkgconfig(pangomm-1.4)
 BuildRequires:	pkgconfig(raptor2)
 BuildRequires:	pkgconfig(redland)
 BuildRequires:	pkgconfig(rubberband)
 BuildRequires:	pkgconfig(samplerate)
 BuildRequires:	pkgconfig(serd-0) >= 0.14.0
+BuildRequires:	pkgconfig(sigc++-2.0)
 BuildRequires:	pkgconfig(sndfile) >= 1.0.18
 BuildRequires:	pkgconfig(sord-0) >= 0.8.0
 BuildRequires:	pkgconfig(sndfile)
