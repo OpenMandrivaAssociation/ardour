@@ -12,6 +12,7 @@ URL:		http://ardour.org/
 # NB to receive a free (as beer) source tarball you need to give your e-mail address here:
 # "http://community.ardour.org/download_process_selection_and_amount" to get a download link
 Source0:	%{oname}-%{version}.tar.bz2
+Source100:	%{name}.rpmlintrc
 
 BuildRequires:	boost-devel
 BuildRequires:	doxygen
@@ -112,7 +113,7 @@ install -d -m 0755 %{buildroot}%{_iconsdir}/hicolor/${i}x${i}/apps
 install -d -m 0755 %{buildroot}%{_iconsdir}/hicolor/${i}x${i}/mimetypes
 ln -s %{_datadir}/%{name}%{maj}/icons/application-x-%{name}_${i}px.png \
 %{buildroot}%{_iconsdir}/hicolor/${i}x${i}/mimetypes/application-x-%{name}%{maj}.png
-ln -s %{_datadir}/%{name}%{maj}/icons/%{name}_icon_${i}px.png \
+ln -s %{_datadir}/%{name}%{maj}/resources/%{oname}-icon_${i}px.png \
 %{buildroot}%{_iconsdir}/hicolor/${i}x${i}/apps/%{name}%{maj}.png
 done
 

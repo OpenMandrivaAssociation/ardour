@@ -1,0 +1,4 @@
+# plugins are not libs
+addFilter("E: devel-file-in-non-devel-package")
+addFilter("W: file-not-in-%lang")
+addFilter("W: symlink-should-be-relative")
