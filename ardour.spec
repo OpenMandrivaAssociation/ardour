@@ -1,22 +1,7 @@
-%define libardour	%mklibname ardour 3
-%define libardouralsa	%mklibname ardouralsautil 0
-%define libaudiographer	%mklibname audiographer 0
-%define libcanvas	%mklibname canvas 0
-%define libevoral	%mklibname evoral 0
-%define libgtkmm2ext	%mklibname gtkmm2ext 0
-%define libmidipp	%mklibname midipp 4
-%define libpbd		%mklibname pbd 4
-%define libptformat	%mklibname ptformat 0
-%define libqmdsp	%mklibname qmdsp 0
-%define libardourvampplugins	%mklibname ardourvampplugins 0
-
-%define devname	%mklibname -d ardour
-
-
 %define oname	Ardour
 %define maj	%{expand:%(echo "%{version}" | cut -d. -f1)}
 Name:		ardour
-Version:	5.0.0
+Version:	5.8.0
 Release:	1
 Epoch:		1
 Summary:	Professional multi-track audio recording application
@@ -26,7 +11,7 @@ URL:		http://ardour.org/
 
 # NB to receive a free (as beer) source tarball you need to give your e-mail address here:
 # "http://community.ardour.org/download_process_selection_and_amount" to get a download link
-Source0:	srctar
+Source0:	%{oname}-%{version}.tar.bz2
 
 BuildRequires:	boost-devel
 BuildRequires:	doxygen
@@ -75,9 +60,10 @@ BuildRequires:	desktop-file-utils
 Requires:	jackit
 Requires:	gtk-engines2
 
+Obsoletes:	%{name}4
 Obsoletes:	%{name}3 < 4.0
 Conflicts:	%{name}3 < 4.0
-Provides:	%{name}3 = %{version}-%{release}
+Provides:	%{name}3 = %{EVRD}
 
 %description
 Ardour is a digital audio workstation. You can use it to record, edit and mix
@@ -89,98 +75,8 @@ with unlimited undo/redo, full automation support, a powerful mixer, unlimited
 tracks/buses/plugins, time-code synchronization, and hardware control from
 surfaces like the Mackie Control Universal.
 
-%package -n	%{libardour}
-Summary:	Ardour5 lib
-Group:		System/Libraries
-
-%description -n	%{libardour}
-%{summary}
-
-%package -n	%{libardouralsa}
-Summary:	Ardour5 lib
-Group:		System/Libraries
-
-%description -n	%{libardouralsa}
-%{summary}
-
-%package -n	%{libaudiographer}
-Summary:	Ardour5 lib
-Group:		System/Libraries
-
-%description -n	%{libaudiographer}
-%{summary}
-
-%package -n	%{libcanvas}
-Summary:	Ardour5 lib
-Group:		System/Libraries
-
-%description -n	%{libcanvas}
-%{summary}
-
-%package -n	%{libardourvampplugins}
-Summary:	Ardour5 lib
-Group:		System/Libraries
-
-%description -n	%{libardourvampplugins}
-%{summary}
-
-%package -n	%{libevoral}
-Summary:	Ardour5 lib
-Group:		System/Libraries
-
-%description -n	%{libevoral}
-%{summary}
-
-%package -n	%{libgtkmm2ext}
-Summary:	Ardour5 lib
-Group:		System/Libraries
-
-%description -n	%{libgtkmm2ext}
-%{summary}
-
-%package -n	%{libmidipp}
-Summary:	Ardour5 lib
-Group:		System/Libraries
-
-%description -n	%{libmidipp}
-%{summary}
-
-
-%package -n	%{libpbd}
-Summary:	Ardour5 lib
-Group:		System/Libraries
-
-%description -n	%{libpbd}
-%{summary}
-
-%package -n	%{libptformat}
-Summary:	Ardour5 lib
-Group:		System/Libraries
-
-%description -n	%{libptformat}
-%{summary}
-
-%package -n	%{libqmdsp}
-Summary:	Ardour5 lib
-Group:		System/Libraries
-
-%description -n	%{libqmdsp}
-%{summary}
-
-%package -n	%{devname}
-Summary:	Development files for %{name}
-Group:		Development/C
-Requires:	%{libqmdsp} = %{version}-%{release}
-Requires:	%{libptformat} = %{version}-%{release}
-Requires:	%{libpbd} = %{version}-%{release}
-Provides:	%{name}-devel = %{version}-%{release}
-Provides:	%{name}%{maj}-devel = %{version}-%{release}
-
-%description -n	%{devname}
-This package includes the development files for %{name}.
-
 %prep
-%setup -q -n %{oname}-%{version}
+%setup -q
 
 sed -i 's!os << obj;!!g' libs/pbd/pbd/compose.h
 
@@ -274,14 +170,7 @@ cp -a README.urpmi README.omv
 %{_datadir}/%{name}%{maj}/locale
 %{_datadir}/%{name}%{maj}/ArdourMono.ttf
 %{_datadir}/applications/%{name}.desktop
-%{_libdir}/%{name}%{maj}/LV2/
-%{_libdir}/%{name}%{maj}/panners/*.so
-%{_libdir}/%{name}%{maj}/surfaces/*.so
-%{_libdir}/%{name}%{maj}/engines/*.so
-%{_libdir}/%{name}%{maj}/backends/*.so
-%{_libdir}/%{name}%{maj}/sanityCheck
-%{_libdir}/%{name}%{maj}/ardour*
-%{_libdir}/%{name}%{maj}/h*ardour*
+%{_libdir}/%{name}%{maj}
 %dir %{_sysconfdir}/%{name}%{maj}
 %{_iconsdir}/hicolor/*
 %config(noreplace) %{_sysconfdir}/%{name}%{maj}/%{name}.menus
@@ -289,41 +178,3 @@ cp -a README.urpmi README.omv
 %config(noreplace) %{_sysconfdir}/%{name}%{maj}/default_ui_config
 %config(noreplace) %{_sysconfdir}/%{name}%{maj}/system_config
 %config(noreplace) %{_sysconfdir}/%{name}%{maj}/trx.menus
-
-%files -n	%{libardour}
-%{_libdir}/%{name}%{maj}/libardour.so.3*
-
-%files -n	%{libaudiographer}
-%{_libdir}/%{name}%{maj}/libaudiographer.so.0*
-
-%files -n	%{libcanvas}
-%{_libdir}/%{name}%{maj}/libcanvas.so.0*
-
-%files -n	%{libevoral}
-%{_libdir}/%{name}%{maj}/libevoral.so.0*
-
-%files -n	%{libgtkmm2ext}
-%{_libdir}/%{name}%{maj}/libgtkmm2ext.so.0*
-
-%files -n	%{libmidipp}
-%{_libdir}/%{name}%{maj}/libmidipp.so.*
-
-%files -n	%{libpbd}
-%{_libdir}/%{name}%{maj}/libpbd.so.*
-
-%files -n	%{libptformat}
-%{_libdir}/%{name}%{maj}/libptformat.so.*
-
-%files -n	%{libqmdsp}
-%{_libdir}/%{name}%{maj}/libqmdsp.so.*
-
-%files -n	%{libardouralsa}
-%{_libdir}/%{name}%{maj}/libardouralsautil.so.0*
-
-%files -n %{libardourvampplugins}
-%{_libdir}/%{name}%{maj}/vamp/libardourvampplugins.so.*
-
-%files -n %{devname}
-%{_libdir}/%{name}%{maj}/*.so
-%{_libdir}/%{name}%{maj}/vamp/*.so
-
