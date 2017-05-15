@@ -76,7 +76,7 @@ tracks/buses/plugins, time-code synchronization, and hardware control from
 surfaces like the Mackie Control Universal.
 
 %prep
-%setup -q
+%setup -q -n %{oname}-%{version}
 
 sed -i 's!os << obj;!!g' libs/pbd/pbd/compose.h
 
