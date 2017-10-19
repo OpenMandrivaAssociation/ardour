@@ -1,7 +1,7 @@
 %define oname	Ardour
 %define maj	%{expand:%(echo "%{version}" | cut -d. -f1)}
 Name:		ardour
-Version:	5.9.0
+Version:	5.12.0
 Release:	1
 Epoch:		1
 Summary:	Professional multi-track audio recording application
@@ -94,7 +94,9 @@ sed -i 's!os << obj;!!g' libs/pbd/pbd/compose.h
     --program-name=Ardour \
     --nls \
     --docs \
-    --cxx11
+    --freedesktop \
+    --cxx11 \
+    --optimize
 
 %{__python2} ./waf build \
     --nls \
