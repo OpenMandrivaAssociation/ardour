@@ -1,17 +1,13 @@
 %define oname	Ardour
 %define maj	%{expand:%(echo "%{version}" | cut -d. -f1)}
 Name:		ardour
-Version:	5.12.0
+Version:	6.6.0
 Release:	1
-Epoch:		1
 Summary:	Professional multi-track audio recording application
 Group:		Sound
 License:	GPLv2+
 URL:		http://ardour.org/
-
-# NB to receive a free (as beer) source tarball you need to give your e-mail address here:
-# "http://community.ardour.org/download_process_selection_and_amount" to get a download link
-Source0:	%{oname}-%{version}.tar.bz2
+Source0:	https://community.ardour.org/srctar/%{oname}-%{version}.tar.bz2
 Source100:	%{name}.rpmlintrc
 
 BuildRequires:	boost-devel
@@ -87,7 +83,7 @@ surfaces like the Mackie Control Universal.
 sed -i 's!os << obj;!!g' libs/pbd/pbd/compose.h
 
 %build
-%{__python2} ./waf configure \
+%{__python3} ./waf configure \
     --prefix=%{_prefix} \
     --libdir=%{_libdir} \
     --configdir=%{_sysconfdir} \
@@ -98,14 +94,14 @@ sed -i 's!os << obj;!!g' libs/pbd/pbd/compose.h
     --cxx11 \
     --optimize
 
-%{__python2} ./waf build \
+%{__python3} ./waf build \
     --nls \
     --docs
 
-%{__python2} ./waf i18n_mo
+%{__python3} ./waf i18n_mo
 
 %install
-%{__python2} ./waf install --destdir=%{buildroot}
+%{__python3} ./waf install --destdir=%{buildroot}
 
 # Symlink icons and mimetypes into the right folders
 install -d -m 0755 %{buildroot}%{_iconsdir}
