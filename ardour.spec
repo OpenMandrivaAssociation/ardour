@@ -90,6 +90,7 @@ surfaces like the Mackie Control Universal.
 sed -i 's!os << obj;!!g' libs/pbd/pbd/compose.h
 
 %build
+%global ldflags %{ldflags} -fuse-ld=gold
 export CC=clang
 export CXX=clang++
 
