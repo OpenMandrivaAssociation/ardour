@@ -14,13 +14,13 @@ BuildRequires:	boost-devel
 BuildRequires:	doxygen
 BuildRequires:	gettext
 BuildRequires:	graphviz
-BuildRequires:	gtkmm2.4-devel >= 2.8
-BuildRequires:	jackit-devel
+BuildRequires:	pkgconfig(gtkmm-3.0)
+BuildRequires:	pkgconfig(jack)
 BuildRequires:	shared-mime-info
 BuildRequires:	xdg-utils
 BuildRequires:	pkgconfig(alsa)
 BuildRequires:	pkgconfig(aubio) >= 0.3.2
-BuildRequires:	pkgconfig(cairomm-1.0)
+BuildRequires:	pkgconfig(cairomm-1.16)
 BuildRequires:	pkgconfig(cppunit) >= 1.12.0
 BuildRequires:	pkgconfig(cwiid)
 BuildRequires:	pkgconfig(fftw3)
@@ -41,7 +41,7 @@ BuildRequires:	pkgconfig(lrdf) >= 0.4.0
 BuildRequires:	pkgconfig(ltc) >= 1.1.0
 BuildRequires:	pkgconfig(lv2)
 BuildRequires:	pkgconfig(ogg) >= 1.1.2
-BuildRequires:	pkgconfig(pangomm-1.4)
+BuildRequires:	pkgconfig(pangomm-2.48)
 BuildRequires:	pkgconfig(raptor2)
 BuildRequires:	pkgconfig(redland)
 BuildRequires:	pkgconfig(rubberband)
