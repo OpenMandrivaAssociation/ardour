@@ -86,6 +86,9 @@ surfaces like the Mackie Control Universal.
 sed -i 's!os << obj;!!g' libs/pbd/pbd/compose.h
 
 %build
+export CC=clang
+export CXX=clang++
+
 %{__python3} ./waf configure \
     --prefix=%{_prefix} \
     --libdir=%{_libdir} \
