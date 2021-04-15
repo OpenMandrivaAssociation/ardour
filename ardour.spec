@@ -14,6 +14,7 @@ BuildRequires:	boost-devel
 BuildRequires:	doxygen
 BuildRequires:	gettext
 BuildRequires:	graphviz
+BuildRequires:  itstool
 BuildRequires:	pkgconfig(gtkmm-2.4)
 BuildRequires:	pkgconfig(jack)
 BuildRequires:	shared-mime-info
