@@ -9,6 +9,7 @@ License:	GPLv2+
 URL:		http://ardour.org/
 Source0:	https://community.ardour.org/srctar/%{oname}-%{version}.tar.bz2
 Source100:	%{name}.rpmlintrc
+Patch0:     https://github.com/Ardour/ardour/commit/8b4edaa9506dc945cfbd8ed9869fd9b384a513d7.patch
 
 BuildRequires:	boost-devel
 BuildRequires:	doxygen
@@ -80,6 +81,7 @@ surfaces like the Mackie Control Universal.
 
 %prep
 %setup -q -n %{oname}-%{version}
+%autopatch -p1
 
 sed -i 's!os << obj;!!g' libs/pbd/pbd/compose.h
 
