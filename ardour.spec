@@ -1,3 +1,5 @@
+%define debug_package %{nil}
+
 %define oname	Ardour
 %define maj	%{expand:%(echo "%{version}" | cut -d. -f1)}
 Name:		ardour
