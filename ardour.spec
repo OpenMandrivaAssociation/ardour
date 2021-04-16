@@ -92,8 +92,8 @@ surfaces like the Mackie Control Universal.
 %build
 #set_build_flags
 #global ldflags %{ldflags} -fuse-ld=bfd
-export CC=clang
-export CXX=clang++
+#export CC=clang
+#export CXX=clang++
 
 %{__python3} ./waf configure \
     --prefix=%{_prefix} \
