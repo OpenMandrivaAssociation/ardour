@@ -90,7 +90,7 @@ surfaces like the Mackie Control Universal.
 #sed -i 's!os << obj;!!g' libs/pbd/pbd/compose.h
 
 %build
-%set_build_flags
+#set_build_flags
 #global ldflags %{ldflags} -fuse-ld=bfd
 export CC=clang
 export CXX=clang++
