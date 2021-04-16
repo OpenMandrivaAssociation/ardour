@@ -40,6 +40,7 @@ BuildRequires:	pkgconfig(libcurl) >= 7.0.0
 BuildRequires:	pkgconfig(libgnomecanvas-2.0) >= 2.30
 BuildRequires:	pkgconfig(libgnomecanvasmm-2.6) >= 2.16
 BuildRequires:	pkgconfig(liblo) >= 0.24
+BuildRequires:  pkgconfig(libpulse)
 BuildRequires:	pkgconfig(libusb)
 BuildRequires:	pkgconfig(libusb-1.0)
 BuildRequires:	pkgconfig(libxml-2.0)
@@ -175,8 +176,8 @@ cp -a README.urpmi README.omv
 
 %files
 %doc README README.urpmi README.omv
-#{_sysconfdir}/%{name}5/%{name}.keys
-%{_bindir}/%{name}%{maj}
+%{_sysconfdir}/%{name}%{maj}/
+%{_bindir}/%{name}%{maj}/
 %{_datadir}/%{name}%{maj}/export/
 %{_datadir}/%{name}%{maj}/icons/
 %{_datadir}/%{name}%{maj}/mcp/
@@ -188,7 +189,12 @@ cp -a README.urpmi README.omv
 %{_datadir}/%{name}%{maj}/themes/
 %{_datadir}/%{name}%{maj}/locale
 %{_datadir}/%{name}%{maj}/ArdourMono.ttf
+%{_datadir}/%{name}%{maj}/web_surfaces/
 %{_datadir}/applications/%{name}.desktop
+%{_datadir}/%{name}%{maj}/ArdourSans.ttf
+%{_datadir}/%{name}%{maj}/plugin_metadata/plugin_statuses
+%{_datadir}/%{name}%{maj}/plugin_metadata/plugin_tags
+%{_datadir}/%{name}%{maj}/templates/.stub
 %{_libdir}/%{name}%{maj}
 %dir %{_sysconfdir}/%{name}%{maj}
 %{_iconsdir}/hicolor/*
