@@ -87,11 +87,11 @@ surfaces like the Mackie Control Universal.
 %setup -q -n %{oname}-%{version}
 %autopatch -p1
 
-sed -i 's!os << obj;!!g' libs/pbd/pbd/compose.h
+#sed -i 's!os << obj;!!g' libs/pbd/pbd/compose.h
 
 %build
 %set_build_flags
-%global ldflags %{ldflags} -fuse-ld=bfd
+#global ldflags %{ldflags} -fuse-ld=bfd
 export CC=clang
 export CXX=clang++
 
