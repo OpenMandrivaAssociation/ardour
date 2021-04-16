@@ -173,7 +173,7 @@ cp -a README.urpmi README.omv
 
 %files
 %doc README README.urpmi README.omv
-%{_sysconfdir}/%{name}5/%{name}.keys
+#{_sysconfdir}/%{name}5/%{name}.keys
 %{_bindir}/%{name}%{maj}
 %{_datadir}/%{name}%{maj}/export/
 %{_datadir}/%{name}%{maj}/icons/
