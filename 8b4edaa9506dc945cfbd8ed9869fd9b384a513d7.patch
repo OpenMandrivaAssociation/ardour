@@ -1,0 +1,160 @@
+From 8b4edaa9506dc945cfbd8ed9869fd9b384a513d7 Mon Sep 17 00:00:00 2001
+From: Robin Gareus <robin@gareus.org>
+Date: Fri, 19 Mar 2021 06:20:21 +0100
+Subject: [PATCH] gcc-11 compat, volatile atomic variables (2/2)
+
+GUI part of previous commit.
+---
+ gtk2_ardour/midi_tracer.cc   | 8 ++++----
+ gtk2_ardour/midi_tracer.h    | 4 +++-
+ gtk2_ardour/public_editor.cc | 2 +-
+ gtk2_ardour/public_editor.h  | 6 ++++--
+ gtk2_ardour/timers.cc        | 7 ++++---
+ 5 files changed, 16 insertions(+), 11 deletions(-)
+
+diff --git a/gtk2_ardour/midi_tracer.cc b/gtk2_ardour/midi_tracer.cc
+index 312c24ee70..bf3853c873 100644
+--- a/gtk2_ardour/midi_tracer.cc
++++ b/gtk2_ardour/midi_tracer.cc
+@@ -53,7 +53,6 @@ MidiTracer::MidiTracer ()
+ 	, autoscroll (true)
+ 	, show_hex (true)
+ 	, show_delta_time (false)
+-	, _update_queued (0)
+ 	, fifo (1024)
+ 	, buffer_pool ("miditracer", buffer_size, 1024) // 1024 256 byte buffers
+ 	, autoscroll_button (_("Auto-Scroll"))
+@@ -61,6 +60,8 @@ MidiTracer::MidiTracer ()
+ 	, collect_button (_("Enabled"))
+ 	, delta_time_button (_("Delta times"))
+ {
++	g_atomic_int_set (&_update_queued, 0);
++
+ 	ARDOUR::AudioEngine::instance()->PortRegisteredOrUnregistered.connect
+ 		(_manager_connection, invalidator (*this), boost::bind (&MidiTracer::ports_changed, this), gui_context());
+ 
+@@ -407,9 +408,8 @@ MidiTracer::tracer (Parser&, byte* msg, size_t len, samplecnt_t now)
+ 
+ 	fifo.write (&buf, 1);
+ 
+-	if (g_atomic_int_get (const_cast<gint*> (&_update_queued)) == 0) {
++	if (g_atomic_int_compare_and_exchange (&_update_queued, 0, 1)) {
+ 		gui_context()->call_slot (invalidator (*this), boost::bind (&MidiTracer::update, this));
+-		g_atomic_int_inc (const_cast<gint*> (&_update_queued));
+ 	}
+ }
+ 
+@@ -417,7 +417,7 @@ void
+ MidiTracer::update ()
+ {
+ 	bool updated = false;
+-	g_atomic_int_dec_and_test (const_cast<gint*> (&_update_queued));
++	g_atomic_int_set (&_update_queued, 0);
+ 
+ 	RefPtr<TextBuffer> buf (text.get_buffer());
+ 
+diff --git a/gtk2_ardour/midi_tracer.h b/gtk2_ardour/midi_tracer.h
+index 14ff7b56fa..32ff1fce7d 100644
+--- a/gtk2_ardour/midi_tracer.h
++++ b/gtk2_ardour/midi_tracer.h
+@@ -34,6 +34,8 @@
+ #include "pbd/signals.h"
+ #include "pbd/ringbuffer.h"
+ #include "pbd/pool.h"
++#include "pbd/g_atomic_compat.h"
++
+ #include "midi++/types.h"
+ #include "ardour_window.h"
+ 
+@@ -68,7 +70,7 @@ class MidiTracer : public ArdourWindow
+ 	 *  equal to 0 when an update is not queued.  May temporarily be negative if a
+ 	 *  update is handled before it was noted that it had just been queued.
+ 	 */
+-	volatile gint _update_queued;
++	GATOMIC_QUAL gint _update_queued;
+ 
+ 	PBD::RingBuffer<char *> fifo;
+ 	Pool buffer_pool;
+diff --git a/gtk2_ardour/public_editor.cc b/gtk2_ardour/public_editor.cc
+index 4ca046726f..c7321ed1ab 100644
+--- a/gtk2_ardour/public_editor.cc
++++ b/gtk2_ardour/public_editor.cc
+@@ -33,8 +33,8 @@ sigc::signal<void> PublicEditor::DropDownKeys;
+ 
+ PublicEditor::PublicEditor (Gtk::Widget& content)
+ 	: Tabbable (content, _("Editor"), X_("editor"))
+-	, _suspend_route_redisplay_counter (0)
+ {
++	g_atomic_int_set (&_suspend_route_redisplay_counter, 0);
+ }
+ 
+ PublicEditor::~PublicEditor()
+diff --git a/gtk2_ardour/public_editor.h b/gtk2_ardour/public_editor.h
+index 0b26383ac5..426e14f030 100644
+--- a/gtk2_ardour/public_editor.h
++++ b/gtk2_ardour/public_editor.h
+@@ -44,6 +44,7 @@
+ #include <sigc++/signal.h>
+ 
+ #include "pbd/statefuldestructible.h"
++#include "pbd/g_atomic_compat.h"
+ 
+ #include "temporal/beats.h"
+ 
+@@ -523,13 +524,14 @@ class PublicEditor : public ArdourWidgets::Tabbable,  public ARDOUR::SessionHand
+ 	friend class DisplaySuspender;
+ 	virtual void suspend_route_redisplay () = 0;
+ 	virtual void resume_route_redisplay () = 0;
+-	gint _suspend_route_redisplay_counter;
++
++	GATOMIC_QUAL gint _suspend_route_redisplay_counter;
+ };
+ 
+ class DisplaySuspender {
+ 	public:
+ 		DisplaySuspender() {
+-			if (g_atomic_int_add(&PublicEditor::instance()._suspend_route_redisplay_counter, 1) == 0) {
++			if (g_atomic_int_add (&PublicEditor::instance()._suspend_route_redisplay_counter, 1) == 0) {
+ 				PublicEditor::instance().suspend_route_redisplay ();
+ 			}
+ 		}
+diff --git a/gtk2_ardour/timers.cc b/gtk2_ardour/timers.cc
+index 2c72a628f3..d52643904d 100644
+--- a/gtk2_ardour/timers.cc
++++ b/gtk2_ardour/timers.cc
+@@ -22,6 +22,7 @@
+ #include "pbd/timer.h"
+ #include "pbd/debug.h"
+ #include "pbd/compose.h"
++#include "pbd/g_atomic_compat.h"
+ 
+ #include "debug.h"
+ 
+@@ -87,8 +88,8 @@ class UITimers
+ 		, rapid(100)
+ 		, super_rapid(40)
+ 		, fps(40)
+-		, _suspend_counter(0)
+ 	{
++	g_atomic_int_set (&_suspend_counter, 0);
+ #ifndef NDEBUG
+ 		second.connect (sigc::mem_fun (*this, &UITimers::on_second_timer));
+ #endif
+@@ -100,7 +101,7 @@ class UITimers
+ 	StandardTimer   super_rapid;
+ 	StandardTimer   fps;
+ 
+-	gint            _suspend_counter;
++	GATOMIC_QUAL gint _suspend_counter;
+ 
+ #ifndef NDEBUG
+ 	std::vector<uint64_t> rapid_eps_count;
+@@ -212,7 +213,7 @@ fps_connect(const sigc::slot<void>& slot)
+ 
+ TimerSuspender::TimerSuspender ()
+ {
+-	if (g_atomic_int_add(&get_timers()._suspend_counter, 1) == 0) {
++	if (g_atomic_int_add (&get_timers()._suspend_counter, 1) == 0) {
+ 		get_timers().rapid.suspend();
+ 		get_timers().super_rapid.suspend();
+ 		get_timers().fps.suspend();

@@ -1,25 +1,29 @@
+%define debug_package %{nil}
+
 %define oname	Ardour
 %define maj	%{expand:%(echo "%{version}" | cut -d. -f1)}
 Name:		ardour
-Version:	5.12.0
+Version:	6.6.0
 Release:	1
-Epoch:		1
 Summary:	Professional multi-track audio recording application
 Group:		Sound
 License:	GPLv2+
 URL:		http://ardour.org/
-
-# NB to receive a free (as beer) source tarball you need to give your e-mail address here:
-# "http://community.ardour.org/download_process_selection_and_amount" to get a download link
-Source0:	%{oname}-%{version}.tar.bz2
+Source0:	https://community.ardour.org/srctar/%{oname}-%{version}.tar.bz2
 Source100:	%{name}.rpmlintrc
+#Patch0:     https://github.com/Ardour/ardour/commit/8b4edaa9506dc945cfbd8ed9869fd9b384a513d7.patch
+Patch0:     0001-Remove-volatile-atomic-re-display-flags-in-GUI-threa.patch
+Patch1:     0002-gcc-11-compat-volatile-atomic-variables-1-2.patch
+Patch2:     0003-gcc-11-compat-volatile-atomic-variables-2-2.patch
+Patch3:     0004-Correctly-detect-glib-volatile-atomic.patch
 
 BuildRequires:	boost-devel
 BuildRequires:	doxygen
 BuildRequires:	gettext
 BuildRequires:	graphviz
-BuildRequires:	gtkmm2.4-devel >= 2.8
-BuildRequires:	jackit-devel
+BuildRequires:  itstool
+BuildRequires:	pkgconfig(gtkmm-2.4)
+BuildRequires:	pkgconfig(jack)
 BuildRequires:	shared-mime-info
 BuildRequires:	xdg-utils
 BuildRequires:	pkgconfig(alsa)
@@ -36,6 +40,7 @@ BuildRequires:	pkgconfig(libcurl) >= 7.0.0
 BuildRequires:	pkgconfig(libgnomecanvas-2.0) >= 2.30
 BuildRequires:	pkgconfig(libgnomecanvasmm-2.6) >= 2.16
 BuildRequires:	pkgconfig(liblo) >= 0.24
+BuildRequires:  pkgconfig(libpulse)
 BuildRequires:	pkgconfig(libusb)
 BuildRequires:	pkgconfig(libusb-1.0)
 BuildRequires:	pkgconfig(libxml-2.0)
@@ -83,11 +88,17 @@ surfaces like the Mackie Control Universal.
 
 %prep
 %setup -q -n %{oname}-%{version}
+%autopatch -p1
 
-sed -i 's!os << obj;!!g' libs/pbd/pbd/compose.h
+#sed -i 's!os << obj;!!g' libs/pbd/pbd/compose.h
 
 %build
-%{__python2} ./waf configure \
+#set_build_flags
+#global ldflags %{ldflags} -fuse-ld=bfd
+#export CC=clang
+#export CXX=clang++
+
+%{__python3} ./waf configure \
     --prefix=%{_prefix} \
     --libdir=%{_libdir} \
     --configdir=%{_sysconfdir} \
@@ -98,14 +109,14 @@ sed -i 's!os << obj;!!g' libs/pbd/pbd/compose.h
     --cxx11 \
     --optimize
 
-%{__python2} ./waf build \
+%{__python3} ./waf build \
     --nls \
     --docs
 
-%{__python2} ./waf i18n_mo
+%{__python3} ./waf i18n_mo
 
 %install
-%{__python2} ./waf install --destdir=%{buildroot}
+%{__python3} ./waf install --destdir=%{buildroot}
 
 # Symlink icons and mimetypes into the right folders
 install -d -m 0755 %{buildroot}%{_iconsdir}
@@ -165,8 +176,8 @@ cp -a README.urpmi README.omv
 
 %files
 %doc README README.urpmi README.omv
-%{_sysconfdir}/%{name}5/%{name}.keys
-%{_bindir}/%{name}%{maj}
+%{_sysconfdir}/%{name}%{maj}/
+%{_bindir}/%{name}%{maj}*
 %{_datadir}/%{name}%{maj}/export/
 %{_datadir}/%{name}%{maj}/icons/
 %{_datadir}/%{name}%{maj}/mcp/
@@ -178,7 +189,12 @@ cp -a README.urpmi README.omv
 %{_datadir}/%{name}%{maj}/themes/
 %{_datadir}/%{name}%{maj}/locale
 %{_datadir}/%{name}%{maj}/ArdourMono.ttf
+%{_datadir}/%{name}%{maj}/web_surfaces/
 %{_datadir}/applications/%{name}.desktop
+%{_datadir}/%{name}%{maj}/ArdourSans.ttf
+%{_datadir}/%{name}%{maj}/plugin_metadata/plugin_statuses
+%{_datadir}/%{name}%{maj}/plugin_metadata/plugin_tags
+%{_datadir}/%{name}%{maj}/templates/.stub
 %{_libdir}/%{name}%{maj}
 %dir %{_sysconfdir}/%{name}%{maj}
 %{_iconsdir}/hicolor/*
