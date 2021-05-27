@@ -3,7 +3,7 @@
 %define oname	Ardour
 %define maj	%{expand:%(echo "%{version}" | cut -d. -f1)}
 Name:		ardour
-Version:	6.6.0
+Version:	6.7.0
 Release:	1
 Summary:	Professional multi-track audio recording application
 Group:		Sound
