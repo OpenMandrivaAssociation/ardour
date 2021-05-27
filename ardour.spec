@@ -116,14 +116,14 @@ surfaces like the Mackie Control Universal.
 # Symlink icons and mimetypes into the right folders
 install -d -m 0755 %{buildroot}%{_iconsdir}
 
-for i in 16 22 32 48; do
-install -d -m 0755 %{buildroot}%{_iconsdir}/hicolor/${i}x${i}/apps
-install -d -m 0755 %{buildroot}%{_iconsdir}/hicolor/${i}x${i}/mimetypes
-ln -s %{_datadir}/%{name}%{maj}/icons/application-x-%{name}_${i}px.png \
-%{buildroot}%{_iconsdir}/hicolor/${i}x${i}/mimetypes/application-x-%{name}%{maj}.png
-ln -s %{_datadir}/%{name}%{maj}/resources/%{oname}-icon_${i}px.png \
-%{buildroot}%{_iconsdir}/hicolor/${i}x${i}/apps/%{name}%{maj}.png
-done
+#for i in 16 22 32 48; do
+#install -d -m 0755 %{buildroot}%{_iconsdir}/hicolor/${i}x${i}/apps
+#install -d -m 0755 %{buildroot}%{_iconsdir}/hicolor/${i}x${i}/mimetypes
+#ln -s %{_datadir}/%{name}%{maj}/icons/application-x-%{name}_${i}px.png \
+#{buildroot}%{_iconsdir}/hicolor/${i}x${i}/mimetypes/application-x-%{name}%{maj}.png
+#ln -s %{_datadir}/%{name}%{maj}/resources/%{oname}-icon_${i}px.png \
+#{buildroot}%{_iconsdir}/hicolor/${i}x${i}/apps/%{name}%{maj}.png
+#done
 
 
 cat>%{name}.desktop<<EOF
