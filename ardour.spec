@@ -1,4 +1,5 @@
 #define debug_package %{nil}
+%define _empty_manifest_terminate_build 0
 
 %define oname	Ardour
 %define maj	%{expand:%(echo "%{version}" | cut -d. -f1)}
