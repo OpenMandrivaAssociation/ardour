@@ -187,6 +187,9 @@ cp -a README.urpmi README.omv
 %{_datadir}/%{name}%{maj}/ArdourMono.ttf
 %{_datadir}/%{name}%{maj}/web_surfaces/
 %{_datadir}/applications/%{name}.desktop
+%{_datadir}/applications/ardour6.desktop
+%{_datadir}/mime/application/ardour.xml
+%{_datadir}/appdata/ardour6.appdata.xml
 %{_datadir}/%{name}%{maj}/ArdourSans.ttf
 %{_datadir}/%{name}%{maj}/plugin_metadata/plugin_statuses
 %{_datadir}/%{name}%{maj}/plugin_metadata/plugin_tags
