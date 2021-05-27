@@ -11,11 +11,6 @@ License:	GPLv2+
 URL:		http://ardour.org/
 Source0:	https://community.ardour.org/srctar/%{oname}-%{version}.tar.bz2
 Source100:	%{name}.rpmlintrc
-#Patch0:     https://github.com/Ardour/ardour/commit/8b4edaa9506dc945cfbd8ed9869fd9b384a513d7.patch
-Patch0:     0001-Remove-volatile-atomic-re-display-flags-in-GUI-threa.patch
-Patch1:     0002-gcc-11-compat-volatile-atomic-variables-1-2.patch
-Patch2:     0003-gcc-11-compat-volatile-atomic-variables-2-2.patch
-Patch3:     0004-Correctly-detect-glib-volatile-atomic.patch
 
 BuildRequires:	boost-devel
 BuildRequires:	doxygen
