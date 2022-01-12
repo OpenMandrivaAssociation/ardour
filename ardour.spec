@@ -5,7 +5,7 @@
 %define maj	%{expand:%(echo "%{version}" | cut -d. -f1)}
 Name:		ardour
 Version:	6.9.0
-Release:	1
+Release:	2
 Summary:	Professional multi-track audio recording application
 Group:		Sound
 License:	GPLv2+
@@ -174,6 +174,7 @@ cp -a README.urpmi README.omv
 %doc README README.urpmi README.omv
 %{_sysconfdir}/%{name}%{maj}/
 %{_bindir}/%{name}%{maj}*
+%dir %{_datadir}/%{name}%{maj}/
 %{_datadir}/%{name}%{maj}/export/
 %{_datadir}/%{name}%{maj}/icons/
 %{_datadir}/%{name}%{maj}/mcp/
@@ -196,7 +197,7 @@ cp -a README.urpmi README.omv
 %{_datadir}/%{name}%{maj}/templates/.stub
 %{_libdir}/%{name}%{maj}
 %dir %{_sysconfdir}/%{name}%{maj}
-%{_iconsdir}/hicolor/*
+%{_iconsdir}/hicolor/*/*/*
 %config(noreplace) %{_sysconfdir}/%{name}%{maj}/%{name}.menus
 %config(noreplace) %{_sysconfdir}/%{name}%{maj}/clearlooks.rc
 %config(noreplace) %{_sysconfdir}/%{name}%{maj}/default_ui_config
