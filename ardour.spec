@@ -173,5 +173,4 @@ cp -a README.urpmi README.omv
 %{_datadir}/%{name}%{maj}/plugin_metadata/plugin_tags
 %{_datadir}/%{name}%{maj}/templates/.stub
 %{_libdir}/%{name}%{maj}
-%dir %{_sysconfdir}/%{name}%{maj}
 %{_iconsdir}/hicolor/*/*/*
