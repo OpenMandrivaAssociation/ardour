@@ -175,8 +175,3 @@ cp -a README.urpmi README.omv
 %{_libdir}/%{name}%{maj}
 %dir %{_sysconfdir}/%{name}%{maj}
 %{_iconsdir}/hicolor/*/*/*
-%config(noreplace) %{_sysconfdir}/%{name}%{maj}/%{name}.menus
-%config(noreplace) %{_sysconfdir}/%{name}%{maj}/clearlooks.rc
-%config(noreplace) %{_sysconfdir}/%{name}%{maj}/default_ui_config
-%config(noreplace) %{_sysconfdir}/%{name}%{maj}/system_config
-#config(noreplace) %{_sysconfdir}/%{name}%{maj}/trx.menus
