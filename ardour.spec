@@ -4,8 +4,8 @@
 %define oname	Ardour
 %define maj	%{expand:%(echo "%{version}" | cut -d. -f1)}
 Name:		ardour
-Version:	6.9.0
-Release:	2
+Version:	7.0.0
+Release:	1
 Summary:	Professional multi-track audio recording application
 Group:		Sound
 License:	GPLv2+
@@ -126,28 +126,6 @@ install -d -m 0755 %{buildroot}%{_iconsdir}
 #{buildroot}%{_iconsdir}/hicolor/${i}x${i}/apps/%{name}%{maj}.png
 #done
 
-
-cat>%{name}.desktop<<EOF
-[Desktop Entry]
-Comment=Digital Audio Workstation
-Comment[en_GB]=Digital Audio Workstation
-Exec=ardour%{maj}
-GenericName=%{oname}
-GenericName[en_GB]=%{oname}
-Icon=%{name}%{maj}
-MimeType=application/x-%{name};
-Name=%{oname}
-Name[en_GB]=%{oname}
-StartupNotify=true
-Terminal=false
-Type=Application
-Categories=AudioVideo;Audio;X-Recorders;X-Multitrack;X-Jack;X-OpenMandriva-CrossDesktop;
-
-EOF
-
-desktop-file-install \
---dir=%{buildroot}%{_datadir}/applications %{name}.desktop
-
 cat > README.urpmi <<EOF
 You will need to add yourself to the 'audio' and 'realtime' groups before using Ardour.
 This may be done in a terminal by using the following commands:
@@ -187,7 +165,6 @@ cp -a README.urpmi README.omv
 %{_datadir}/%{name}%{maj}/locale
 %{_datadir}/%{name}%{maj}/ArdourMono.ttf
 %{_datadir}/%{name}%{maj}/web_surfaces/
-%{_datadir}/applications/%{name}.desktop
 %{_datadir}/applications/ardour6.desktop
 %{_datadir}/mime/application/ardour.xml
 %{_datadir}/appdata/ardour6.appdata.xml
