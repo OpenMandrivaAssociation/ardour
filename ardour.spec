@@ -5,7 +5,7 @@
 %define maj	%{expand:%(echo "%{version}" | cut -d. -f1)}
 Name:		ardour
 Version:	7.5.0
-Release:	1
+Release:	2
 Summary:	Professional multi-track audio recording application
 Group:		Sound
 License:	GPLv2+
