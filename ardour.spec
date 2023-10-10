@@ -99,14 +99,12 @@ surfaces like the Mackie Control Universal.
     --libdir=%{_libdir} \
     --configdir=%{_sysconfdir} \
     --program-name=Ardour \
-    --nls \
     --docs \
     --freedesktop \
     --cxx11 \
     --optimize
 
 %{__python3} ./waf build \
-    --nls \
     --docs
 
 %{__python3} ./waf i18n_mo
