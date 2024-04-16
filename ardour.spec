@@ -4,12 +4,12 @@
 %define oname	Ardour
 %define maj	%{expand:%(echo "%{version}" | cut -d. -f1)}
 Name:		ardour
-Version:	8.5.0
+Version:	8.6.0
 Release:	1
 Summary:	Professional multi-track audio recording application
 Group:		Sound
 License:	GPLv2+
-URL:		http://ardour.org/
+URL:		https://ardour.org/
 Source0:	https://community.ardour.org/srctar/%{oname}-%{version}.tar.bz2
 Source100:	%{name}.rpmlintrc
 
