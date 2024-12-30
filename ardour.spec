@@ -101,7 +101,7 @@ surfaces like the Mackie Control Universal.
     --program-name=Ardour \
     --docs \
     --freedesktop \
-    --cxx11 \
+    --cxx17 \
     --optimize
 
 %{__python3} ./waf build \
