@@ -6,7 +6,7 @@
 
 Summary:		Professional multi-track audio recording application
 Name:		ardour
-Version:		9.0.0
+Version:		9.2.0
 Release:		1
 License:		GPLv2+
 Group:	Sound
@@ -20,8 +20,9 @@ BuildRequires:	graphviz
 BuildRequires:	itstool
 BuildRequires:	python
 BuildRequires:	shared-mime-info
+BuildRequires:	waf
 BuildRequires:	xdg-utils
-BuildRequires:	boost-devel
+BuildRequires:	boost-devel >= 1.68
 BuildRequires:	pkgconfig(gtkmm-2.4)
 BuildRequires:	pkgconfig(alsa)
 BuildRequires:	pkgconfig(aubio) >= 0.4.0
@@ -153,18 +154,23 @@ export CXX=clang++
 %{__python3} ./waf install --destdir=%{buildroot}
 
 # Tell the user about the need to join some system groups
-# FIXME: OMV does not seem to have "realtime" group
 cat > README.omv <<EOF
-You will need to add yourself to the 'audio' and 'realtime' groups before using Ardour.
+You will need to add yourself to the 'audio' group before using Ardour.
 This may be done in a terminal by using the following commands:
 su
-gpasswd -a <yourusername> audio
-gpasswd -a <yourusername> realtime.
+gpasswd -a <yourusername> audio.
 
 You can alternatively do the same by using the OpenMandriva Control Center GUI:
 System -> Manage Users on System -> Right click on your user, twice -> Edit -> Groups tab -> 
-Check boxes for audio and realtime groups -> Click on OK
+Check boxes for audio group -> Click on OK
 
 Next You will need to log out and log back in before using Ardour for the first time.
 
 EOF
+
+# Drop unwanted files
+#rm -f %%{buildroot}%%{_datadir}/%%{name}%%{maj}/templates/.stub
+rm -f %{buildroot}%{_libdir}/%{name}%{maj}/libhidapi.a
+
+# Fix desktop file
+desktop-file-edit --remove-category=AudioEditing %{buildroot}%{_datadir}/applications/%{name}%{maj}.desktop

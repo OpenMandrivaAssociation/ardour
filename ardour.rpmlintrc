@@ -1,4 +1,12 @@
-# plugins are not libs
-addFilter("E: devel-file-in-non-devel-package")
+# Plugins are not libs
+addFilter("W: devel-file-in-non-devel-package")
+
 addFilter("W: file-not-in-%lang")
-addFilter("W: symlink-should-be-relative")
+#addFilter("W: symlink-should-be-relative")
+
+# Useless
+addFilter("E: incorrect-fsf-address")
+addFilter("W: no-manual-page-for-binary")
+
+# The files in /etc/ardour9 are legitimate conf files
+addFilter("W: non-conffile-in-etc")
