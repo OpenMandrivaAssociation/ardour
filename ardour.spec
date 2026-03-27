@@ -7,7 +7,7 @@
 Summary:		Professional multi-track audio recording application
 Name:		ardour
 Version:		9.2.0
-Release:		1
+Release:		2
 License:		GPLv2+
 Group:	Sound
 Url:		https://ardour.org/
