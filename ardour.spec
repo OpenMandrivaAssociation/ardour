@@ -6,8 +6,8 @@
 
 Summary:		Professional multi-track audio recording application
 Name:		ardour
-Version:		9.2.0
-Release:		2
+Version:		9.7.0
+Release:		1
 License:		GPLv2+
 Group:	Sound
 Url:		https://ardour.org/
@@ -99,24 +99,25 @@ surfaces like the Mackie Control Universal.
 %dir %{_datadir}/%{name}%{maj}/
 %{_datadir}/%{name}%{maj}/export/
 %{_datadir}/%{name}%{maj}/icons/
+%{_datadir}/%{name}%{maj}/locale
+%{_datadir}/%{name}%{maj}/media/
 %{_datadir}/%{name}%{maj}/mcp/
 %{_datadir}/%{name}%{maj}/midi_maps/
 %{_datadir}/%{name}%{maj}/osc
 %{_datadir}/%{name}%{maj}/patchfiles/
+%{_datadir}/%{name}%{maj}/plugin_metadata/plugin_statuses
+%{_datadir}/%{name}%{maj}/plugin_metadata/plugin_tags
 %{_datadir}/%{name}%{maj}/resources/
 %{_datadir}/%{name}%{maj}/scripts/
+%{_datadir}/%{name}%{maj}/templates/.stub
 %{_datadir}/%{name}%{maj}/themes/
-%{_datadir}/%{name}%{maj}/locale
 %{_datadir}/%{name}%{maj}/web_surfaces/
+%{_datadir}/%{name}%{maj}/%{oname}Mono.ttf
+%{_datadir}/%{name}%{maj}/%{oname}Sans.ttf
+%{_datadir}/%{name}%{maj}/chords.txt
 %{_datadir}/applications/%{name}%{maj}.desktop
 %{_datadir}/mime/packages/%{name}.xml
 %{_datadir}/appdata/%{name}%{maj}.appdata.xml
-%{_datadir}/%{name}%{maj}/%{oname}Mono.ttf
-%{_datadir}/%{name}%{maj}/%{oname}Sans.ttf
-%{_datadir}/%{name}%{maj}/plugin_metadata/plugin_statuses
-%{_datadir}/%{name}%{maj}/plugin_metadata/plugin_tags
-%{_datadir}/%{name}%{maj}/templates/.stub
-%{_datadir}/%{name}%{maj}/media/
 %{_iconsdir}/hicolor/*/apps/%{name}%{maj}.png
 
 #-----------------------------------------------------------------------------
@@ -144,9 +145,9 @@ export CXX=clang++
     --keepflags \
     --no-phone-home
 
-%{__python3} ./waf build \
-    --docs
+%{__python3} ./waf build --docs
 
+# Make translations
 %{__python3} ./waf i18n_mo
 
 
